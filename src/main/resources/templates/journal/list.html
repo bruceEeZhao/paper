@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>news</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../../static/lib/prism/prism.css">
+
+    <script src="../static/lib/prism/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="_fragments :: navigation(1)"></nav>
+
+<div class="m-container-big m-padded-tb-big">
+    <div class="ui container">
+        <!-- 搜索 -->
+        <div class="ui horizontal list">
+            <div class="item">
+                <div class="content">
+                    <div class="ui mini header">学科</div>
+                    <div>
+                        <select class="ui dropdown">
+                            <option value="">全部学科</option>
+                            <option value="1">机器学习</option>
+                            <option value="0">网络科学</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="ui header">期刊ISSN</div>
+                    <div class="ui input focus">
+                        <input type="text" placeholder="ISSN">
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="ui header">期刊名称</div>
+                    <div class="ui input focus">
+                        <input type="text" placeholder="期刊名称">
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content m-inline-block">
+                    显示
+                    <select class="ui dropdown">
+                        <option value="">20</option>
+                        <option value="1">30</option>
+                        <option value="0">40</option>
+                    </select>
+                    条数
+                </div>
+            </div>
+        </div>
+
+        <!-- 默认首页显示期刊列表 -->
+        <table class="ui celled structured table">
+            <thead>
+            <tr>
+                <th rowspan="2">序号</th>
+                <th rowspan="2">ISSN</th>
+                <th rowspan="2">学科</th>
+                <th rowspan="2">期刊名称</th>
+                <th colspan="5">评级</th>
+            </tr>
+            <tr>
+                <th>FMS</th>
+                <th>JCR排序</th>
+                <th>SJR排序</th>
+                <th>SNIP排序</th>
+                <th>IPP排序</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="journal,iterStat : ${page.content}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${journal.issn}">ISSN</td>
+                <td th:text="${journal.subject}">subject</td>
+                <td th:text="${journal.name}">Accounting Review</td>
+                <td th:text="${journal.fms}">4*</td>
+                <td th:text="${journal.jcr}">4</td>
+                <td th:text="${journal.sjr}">3</td>
+                <td th:text="${journal.snip}">3</td>
+                <td th:text="${journal.ipp}">3</td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th colspan="13">
+                    <div class="ui right floated pagination menu">
+                        <a th:href="@{/journal/list(pageNum = ${page.hasPrevious()} ? ${page.getNumber() } : 1)}" class="item">上一页</a>
+                        <a th:href="@{/journal/list(pageNum = ${page.hasNext()} ? ${page.getNumber()} + 2 : ${page.totalPages})}" class="item">下一页</a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+		$('.ui.dropdown').dropdown();
+</script>
+
+</body>

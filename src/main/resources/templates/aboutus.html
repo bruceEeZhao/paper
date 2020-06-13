@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../static/css/paper.css" th:href="@{/css/paper.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="_fragments :: navigation(1)"></nav>
+
+<!-- 中间内容 -->
+<div class="m-container m-padded-tb-large">
+    <div class="ui container">
+        <div class="ui grid">
+            <!-- left side -->
+            <div class="eleven wide column">
+                <div class="ui top attached segment">
+                    <div class="ui header">关于我</div>
+                    <p class="text">
+                        我们是是方法是对方是的范德萨范德萨范德萨山东矿机哈萨克见好就收吧付
+                    </p>
+                </div>
+            </div>
+
+            <!-- right side-->
+            <div class="five wide column">
+                <!-- news -->
+                <div class="ui attached segment">
+                    <!-- news head -->
+                    <div class="ui two column grid">
+                        <div class="column">
+                            <h3 class="ui header item">焦点新闻</h3>
+                        </div>
+                        <div class="right aligned column">
+                            <a href="#" th:href="@{news/list}" target="_blank" class="m-text-mini red">更多新闻</a>
+                        </div>
+                    </div>
+
+                    <!-- news content -->
+                    <div class="ui divider"></div>
+
+                    <div class="ui padded vertical segment ">
+                        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
+                        <p>商业和管理研究经费</p>
+                    </div>
+                    <div class="ui padded vertical segment ">
+                        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
+                        <p>商业和管理研究经费</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="m-container m-padded-tb-large">
+    <div class="ui container">
+        <div class="ui top attached segment">
+            <div class="ui header">我们如何与会员合作</div>
+        </div>
+        <div class="ui attached segment">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

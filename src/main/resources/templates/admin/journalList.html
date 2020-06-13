@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
+
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="admin/_form :: navigation(1)"></nav>
+
+<div th:insert="admin/_form :: journallist"></div>
+
+<script th:fragment="script" type="text/javascript">
+		$('.ui.dropdown').dropdown();
+
+		//消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
+
+		//
+		function page(obj) {
+		    $("[name='page']").val($(obj)).data("page");
+		    loaddata();
+		};
+
+        $("#search-btn").click(function(){
+            loaddata();
+        });
+
+		function loaddata() {
+		    $("#table-container").load(/*[[@{/admin/journals/search}]]*/"/admin/journals/search",{
+		        name : $("[name='name']").val(),
+		        issn : $("[name='issn']").val(),
+		        subject : $("[name='subject']").val(),
+                page : $("[name='page']").val()
+		    });
+		}
+
+
+	</script>
+
+</body>
+</html>

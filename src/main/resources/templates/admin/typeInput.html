@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
+
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="admin/_form :: navigation(1)"></nav>
+
+<div class="m-container-mini m-padded-tb-big">
+    <div class="ui container">
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <!-- 需要区分修改还是添加 -->
+        <form action="#" th:action="${type == null} ? @{/admin/type/edit} : @{/admin/type/edit{id}(id = ${type.id})}"  method="post" class="ui form">
+
+            <div class="field">
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">学科名称</div>
+                    <input type="text" name="name" placeholder="学科名称" th:value="${type != null}?${type.name}">
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui teal submit button">提交</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script th:fragment="script" type="text/javascript">
+		$('.ui.dropdown').dropdown();
+
+		//消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
+
+	</script>
+
+</body>
+</html>

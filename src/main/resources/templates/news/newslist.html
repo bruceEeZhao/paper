@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>news</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="/lib/prism/prism.css">
+
+    <script src="../../static/lib/prism/prism.js" th:src="/lib/prism/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="_fragments :: navigation(1)"></nav>
+
+<div class="m-container m-padded-tb-large language-css animate__animated animate__fadeIn">
+    <div class="ui container">
+        <div class="ui grid">
+            <!-- left side -->
+            <div class="eleven wide column">
+                <div id="content" class="typo typo-selection">
+                    <div class="ui relaxed divided list">
+
+                        <div class="ui left labeled input">
+                            <div class="ui teal basic label">ISSN</div>
+                            <input type="text" name="issn" placeholder="ISSN" th:value="${journal != null}?${journal.issn}">
+                        </div>
+
+
+                        <div th:each="new, iterStat : ${page.content}" class="ui two column grid">
+                            <div class="column">
+                                <a class="ui yellow circular label" th:value="${iterStat.count}">2</a>
+                            </div>
+                            <div class="left aligned column">
+                                <div class="content">
+                                    <a class="header">关于xxx的新闻</a>
+                                    <div class="description">Updated 10 mins ago</div>
+                                </div>
+                                <p>新闻内容sdffffffffffffffffffffffffffffff</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- right side-->
+            <div class="five wide column">
+                <div class="ui top attached segment">
+                    <img src="../../static/images/FMS.png" th:src="@{/images/FMS.png}">
+                </div>
+
+                <div th:insert="_fragments :: news"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

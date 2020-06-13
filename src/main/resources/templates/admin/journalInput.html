@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
+
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="admin/_form :: navigation(1)"></nav>
+
+<div class="m-container-mini m-padded-tb-big">
+    <div class="ui container">
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <!-- 需要区分修改还是添加 -->
+        <form action="#" th:action="${journal == null} ? @{/admin/journal/edit} : @{/admin/journal/edit{id}(id = ${journal.id})}"  method="post" class="ui form">
+
+            <div class="field">
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">ISSN</div>
+                    <input type="text" name="issn" placeholder="ISSN" th:value="${journal != null}?${journal.issn}">
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">学科</div>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="subject.id">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">学科</div>
+                            <div class="menu">
+                                <div class="item" th:each="subject : ${subjects}" th:data-value="${subject.id}" th:text="${subject.name}">Male</div>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">名称</div>
+                    <input type="text" name="name" placeholder="期刊名称" th:value="${journal != null}?${journal.name}">
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">FMS</div>
+                    <input type="text" name="fms" placeholder="FMS" th:value="${journal != null}?${journal.fms}">
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">JCR</div>
+                    <input type="text" name="jcr" placeholder="JCR" th:value="${journal != null}?${journal.jcr}">
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">SJR</div>
+                    <input type="text" name="sjr" placeholder="SJR" th:value="${journal != null}?${journal.sjr}">
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">SNIP</div>
+                    <input type="text" name="snip" placeholder="SNIP" th:value="${journal != null}?${journal.snip}">
+                </div>
+
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">IPP</div>
+                    <input type="text" name="ipp" placeholder="IPP" th:value="${journal != null}?${journal.ipp}">
+                </div>
+
+            </div>
+
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui teal submit button">提交</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $('.ui.dropdown').dropdown();
+
+    //消息提示关闭初始化
+    $('.message .close')
+    .on('click', function() {
+        $(this)
+            .closest('.message')
+            .transition('fade');
+    });
+    $('.ui.form').form({
+        fields : {
+            title : {
+                identifier : 'name1',
+                rules : [{
+                    type : 'empty',
+                    prompt : '请输入名称'
+                }]
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

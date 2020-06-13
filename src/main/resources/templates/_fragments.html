@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../../static/lib/prism/prism.css">
+
+    <script src="../static/lib/prism/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:fragment="navigation(n)" class="ui inverted attached segment m-padded-tb-mini">
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <h2 class="ui teal header item">Paper</h2>
+            <a href="#" th:href="@{/}" class="item" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>首页</a>
+            <a href="#" th:href="@{/journal/list}" class="item" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i>期刊列表</a>
+            <a href="#" th:href="@{/admin/statistic}" class="item" th:classappend="${n==3} ? 'active'"><i class="list alternate outline icon"></i>网站统计</a>
+            <a href="#" th:href="@{/aboutus}" class="item" th:classappend="${n==4} ? 'active'"><i class="info icon"></i>关于我们</a>
+            <div class="right item">
+                <div class="ui icon inverted transparent input">
+                    <input type="text" placeholder="Search..." >
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!-- news -->
+<div th:fragment="news" class="ui attached segment">
+    <!-- news head -->
+    <div class="ui two column grid">
+        <div class="column">
+            <h3 class="ui header item">焦点新闻</h3>
+        </div>
+        <div class="right aligned column">
+            <a href="#" target="_blank" class="m-text-mini red">更多新闻</a>
+        </div>
+    </div>
+
+    <!-- news content -->
+    <div class="ui divider"></div>
+
+    <div class="ui padded vertical segment ">
+        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
+        <p>商业和管理研究经费</p>
+    </div>
+    <div class="ui padded vertical segment ">
+        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
+        <p>商业和管理研究经费</p>
+    </div>
+
+</div>
+
+</body>
+</html>

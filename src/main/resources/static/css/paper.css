@@ -1,0 +1,86 @@
+.m-padded-tb-mini {
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+.m-padded-tb-tiny {
+    padding-top: 0.3em !important;
+    padding-bottom: 0.3em !important;
+}
+.m-padded-tb-small {
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+}
+.m-padded-tb {
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+}
+.m-padded-tb-large {
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+}
+.m-padded-tb-big {
+    padding-top: 3em !important;
+    padding-bottom: 3em !important;
+}
+.m-padded-tb-huge {
+    padding-top: 4em !important;
+    padding-bottom: 4em !important;
+}
+
+.m-padded-tb-massive {
+    padding-top: 10em !important;
+    padding-bottom: 10em !important;
+}
+
+/*-------------text---------------*/
+.m-text {
+    front-weight: 300 !important;
+    letter-spacing: 1px !important;
+    line-height: 1.8;
+}
+
+.m-text-thin {
+    front-weight: 300 !important;
+}
+
+.m-text-sapced {
+    letter-spacing: 1px !important;
+}
+
+.m-text-lined {
+    line-height: 1.8;
+}
+
+.m-text-mini {
+    font-size: 75% !important;
+}
+
+.m-opacity-mini {
+    opacity: 0.8 !important;
+}
+
+/*display*/
+.m-inline-block {
+    display: inline-block !important;
+}
+
+/* -------------*/
+.m-container-small {
+    max-width: 20em !important;
+    margin: auto !important;
+}
+
+.m-container-mini {
+    max-width: 75em !important;
+    margin: auto !important;
+}
+
+.m-container {
+    max-width: 100em !important;
+    margin: auto !important;
+}
+
+.m-container-big {
+    max-width: 200em !important;
+    margin: auto !important;
+}

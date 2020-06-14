@@ -11,7 +11,7 @@
 <body>
 
 <!-- 导航 -->
-<nav th:insert="_fragments :: navigation(1)"></nav>
+<nav th:insert="_fragments :: navigation(5)"></nav>
 
 <!-- 中间内容 -->
 <div class="m-container m-padded-tb-large">
@@ -21,7 +21,7 @@
             <div class="eleven wide column">
                 <div class="ui top attached segment">
                     <div class="ui header">关于我</div>
-                    <p class="text">
+                    <p class="text" th:text="#{aboutus.about}">
                         我们是是方法是对方是的范德萨范德萨范德萨山东矿机哈萨克见好就收吧付
                     </p>
                 </div>

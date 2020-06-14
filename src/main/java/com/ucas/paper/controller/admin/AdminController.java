@@ -4,6 +4,7 @@ import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.News;
 import com.ucas.paper.entities.User;
 import com.ucas.paper.service.JournalService;
+import com.ucas.paper.service.TypeService;
 import com.ucas.paper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +36,23 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TypeService typeService;
+
+    @Autowired
+    private JournalService journalService;
+
     @GetMapping
     public String loginPage() {
         return "admin/login";
+    }
+
+    @GetMapping("dashboard")
+    public String dashboard(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+                                        Pageable pageable,Model model) {
+        model.addAttribute("subjects", typeService.listType());
+        model.addAttribute("page",journalService.listJournal(pageable));
+        return "admin/dashboard";
     }
 
     @PostMapping("/login")
@@ -49,7 +64,7 @@ public class AdminController {
         if (user != null) {
             user.setPassword(null);
             session.setAttribute("loginUser", user);
-            return "redirect:/admin/main.html";
+            return "redirect:/admin/dashboard";
         } else {
             attributes.addFlashAttribute("message", "用户名或密码错误");
             return "redirect:/admin";

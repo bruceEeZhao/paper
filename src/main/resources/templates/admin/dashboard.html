@@ -11,8 +11,52 @@
 <body>
 
 <!-- 导航 -->
-<nav th:insert="admin/_form :: navigation(1)"></nav>
+<nav th:insert="admin/_form :: navigation(0)"></nav>
 
+<div class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <div class="ui four statistics">
+            <div class="statistic">
+                <div class="value">
+                    22
+                </div>
+                <div class="label">
+                    Saves
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="text value">
+                    Three<br>
+                    Thousand
+                </div>
+                <div class="label">
+                    Signups
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    <i class="plane icon"></i> 5
+                </div>
+                <div class="label">
+                    Flights
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    <img src="../images/avatar/small/joe.jpg" class="ui circular inline image">
+                    42
+                </div>
+                <div class="label">
+                    Team Members
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div th:insert="admin/_form :: journallist"></div>
 
 <!--<div th:insert="admin/_form :: journallist"></div>-->
 
@@ -23,6 +67,14 @@
 
 <script type="text/javascript">
 		$('.ui.dropdown').dropdown();
+
+		//消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
 </script>
 
 </body>

@@ -18,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +30,8 @@ public class JournalServiceImpl implements JournalService {
     @Transactional
     @Override
     public Journal addJournal(Journal journal) {
+        journal.setCreateTime(new Date());
+        journal.setUpdateTime(new Date());
         return journalRespository.save(journal);
     }
 
@@ -91,6 +94,7 @@ public class JournalServiceImpl implements JournalService {
             throw new NotFoundException("不存在该类型");
         }
         BeanUtils.copyProperties(journal, j);
+        j.setUpdateTime(new Date());
         return journalRespository.save(j);
     }
 

@@ -7,46 +7,70 @@
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
     <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
-    <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="/lib/prism/prism.css">
+    <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
 
-    <script src="../../static/lib/prism/prism.js" th:src="/lib/prism/prism.js"></script>
+    <script src="../../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
 </head>
 <body>
 
 <!-- 导航 -->
-<nav th:insert="_fragments :: navigation(1)"></nav>
+<nav th:insert="_fragments :: navigation(3)"></nav>
+
 
 <div class="m-container m-padded-tb-large language-css animate__animated animate__fadeIn">
     <div class="ui container">
-        <div class="ui grid">
+
+        <div class="ui segment">
+        <!-- 搜索 -->
+        <form name="search"  method="post" action="#" th:action="@{/news/search}" target="_blank">
+            <div class="ui inverted category  search">
+                <div class="ui icon input">
+                    <input name="search_news_a" class="prompt" type="text" placeholder="Search animals...">
+                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+        </form>
+        </div>
+
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <div class="ui middle aligned grid" >
             <!-- left side -->
-            <div class="eleven wide column">
-                <div id="content" class="typo typo-selection">
-                    <div class="ui relaxed divided list">
+            <div class="eleven wide column" >
+                <div th:each="newsi, iterStat : ${page.content}">
+                <div class="ui container m-padded-tb">
+                    <a th:href="@{/news/{id}(id=${newsi.id})}" class="item" th:text="${newsi.title}">
+                        <div class="ui yellow circular label" th:text="${iterStat.count}">2</div>
+                        标题
+                    </a>
+                    <p class="m-text" th:text="|${newsi.description}....|">xxx</p>
+                    <div class="item">
+                        <i class="calendar icon"></i><span th:text="${#dates.format(newsi.updateTime,'yyyy-MM-dd')}">2017-09-01</span>
+                    </div>
+                </div>
+                </div>
 
-                        <div class="ui left labeled input">
-                            <div class="ui teal basic label">ISSN</div>
-                            <input type="text" name="issn" placeholder="ISSN" th:value="${journal != null}?${journal.issn}">
+                <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+
+                    <div class="ui middle aligned two column grid">
+                        <div class="column">
+                            <a th:href="@{/news(page = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
                         </div>
-
-
-                        <div th:each="new, iterStat : ${page.content}" class="ui two column grid">
-                            <div class="column">
-                                <a class="ui yellow circular label" th:value="${iterStat.count}">2</a>
-                            </div>
-                            <div class="left aligned column">
-                                <div class="content">
-                                    <a class="header">关于xxx的新闻</a>
-                                    <div class="description">Updated 10 mins ago</div>
-                                </div>
-                                <p>新闻内容sdffffffffffffffffffffffffffffff</p>
-                            </div>
+                        <div class="column">
+                            <a th:href="@{/news(page = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- right side-->
             <div class="five wide column">
@@ -59,6 +83,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+     //消息提示关闭初始化
+    $('.message .close')
+    .on('click', function() {
+        $(this)
+            .closest('.message')
+            .transition('fade');
+    });
+
+    //<!--  下拉菜单激活  -->
+	$('.ui.dropdown').dropdown();
+
+
+</script>
 
 </body>
 </html>

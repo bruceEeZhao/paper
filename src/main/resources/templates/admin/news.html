@@ -16,7 +16,7 @@
 <body>
 
 <!-- 导航 -->
-<nav th:insert="admin/_form :: navigation(1)"></nav>
+<nav th:insert="admin/_form :: navigation(3)"></nav>
 
 <div class="m-container-big m-padded-tb-big">
     <div class="ui container">
@@ -65,8 +65,8 @@
             <tfoot>
             <tr><th colspan="4">
                 <div class="ui right floated pagination menu">
-                    <a th:href="@{/admin/news(pageNum = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
-                    <a th:href="@{/admin/news(pageNum = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
+                    <a th:href="@{/admin/news(page = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
+                    <a th:href="@{/admin/news(page = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
                 </div>
                 <a href="#" th:href="@{/admin/news/input}" class="ui mini left floated teal basic button">新增</a>
             </th>

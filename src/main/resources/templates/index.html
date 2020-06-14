@@ -50,31 +50,7 @@
                     <img src="../static/images/FMS.png" th:src="@{/images/FMS.png}">
                 </div>
 
-                <!-- news -->
-                <div class="ui attached segment">
-                    <!-- news head -->
-                    <div class="ui two column grid">
-                        <div class="column">
-                            <h3 class="ui header item">焦点新闻</h3>
-                        </div>
-                        <div class="right aligned column">
-                            <a href="#" th:href="@{news/list}" target="_blank" class="m-text-mini red">更多新闻</a>
-                        </div>
-                    </div>
-
-                    <!-- news content -->
-                    <div class="ui divider"></div>
-
-                    <div class="ui padded vertical segment ">
-                        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
-                        <p>商业和管理研究经费</p>
-                    </div>
-                    <div class="ui padded vertical segment ">
-                        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
-                        <p>商业和管理研究经费</p>
-                    </div>
-
-                </div>
+                <div th:insert="_fragments :: news"></div>
             </div>
         </div>
     </div>

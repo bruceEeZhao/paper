@@ -54,10 +54,10 @@ public class AdminController {
     @GetMapping("dashboard")
     public String dashboard(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
                                         Pageable pageable,Model model) {
-        model.addAttribute("subject", typeService.listType().size());
-        model.addAttribute("journal",journalService.listJournal().size());
-        model.addAttribute("news", newsService.listNews().size());
-        model.addAttribute("specialist",specialistService.listSpecialist().size());
+        model.addAttribute("subject", typeService.count());
+        model.addAttribute("journal",journalService.count());
+        model.addAttribute("news", newsService.count());
+        model.addAttribute("specialist",specialistService.count());
         return "admin/dashboard";
     }
 

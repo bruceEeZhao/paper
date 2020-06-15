@@ -15,4 +15,6 @@ public interface SpecialistService {
     Page<Specialist> listSpecialist(Pageable pageable);
     List<Specialist> listSpecialist();
     void delSpecialist(Long id);
+
+    Long count();
 }

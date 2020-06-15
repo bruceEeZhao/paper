@@ -15,4 +15,6 @@ public interface TypeService {
     Page<Type> listType(Pageable pageable, String type);
     List<Type> listType();
     void delType(Long id);
+
+    Long count();
 }

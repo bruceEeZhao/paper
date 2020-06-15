@@ -21,4 +21,6 @@ public interface NewsService {
     List <News> listNews();
 
     void delNews(Long id);
+
+    Long count();
 }

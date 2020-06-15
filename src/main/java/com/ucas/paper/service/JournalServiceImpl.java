@@ -153,4 +153,9 @@ public class JournalServiceImpl implements JournalService {
         return wb;
     }
 
+
+    @Override
+    public Long count() {
+        return journalRespository.count();
+    }
 }

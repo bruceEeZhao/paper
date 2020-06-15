@@ -90,4 +90,9 @@ public class SpecialistServiceImpl implements SpecialistService {
     public void delSpecialist(Long id) {
         specialistResponsitory.deleteById(id);
     }
+
+    @Override
+    public Long count() {
+        return specialistResponsitory.count();
+    }
 }

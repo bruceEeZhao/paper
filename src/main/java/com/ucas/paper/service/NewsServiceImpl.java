@@ -118,4 +118,9 @@ public class NewsServiceImpl implements NewsService{
     public void delNews(Long id) {
         newsRespository.deleteById(id);
     }
+
+    @Override
+    public Long count() {
+        return newsRespository.count();
+    }
 }

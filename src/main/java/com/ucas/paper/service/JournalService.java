@@ -30,4 +30,6 @@ public interface JournalService {
 
     public XSSFWorkbook show();
 
+    Long count();
+
 }

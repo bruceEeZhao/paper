@@ -5,6 +5,9 @@ import com.ucas.paper.dao.JournalRespository;
 import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.JournalSearch;
 import com.ucas.paper.entities.Type;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -102,6 +105,52 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public void deleteJournalById(Long id) {
         journalRespository.deleteById(id);
+    }
+
+
+    /**
+     *     private Long id;
+     *     private String issn;
+     *     private Type subject;
+     *     private String name;  //期刊名称
+     *     private String fms;
+     *     private Integer jcr;
+     *     private Integer sjr;
+     *     private Integer snip;
+     *     private Integer ipp;
+     * */
+
+    @Override
+    public XSSFWorkbook show() {
+        List<Journal> list = journalRespository.findAll();
+        XSSFWorkbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("journal");//创建一张表
+        Row titleRow = sheet.createRow(0);//创建第一行，起始为0
+        titleRow.createCell(0).setCellValue("序号");//第一列
+        titleRow.createCell(1).setCellValue("issn");
+        titleRow.createCell(2).setCellValue("学科");
+        titleRow.createCell(3).setCellValue("期刊名称");
+        titleRow.createCell(4).setCellValue("fms");
+        titleRow.createCell(5).setCellValue("jcr");
+        titleRow.createCell(6).setCellValue("sjr");
+        titleRow.createCell(7).setCellValue("snip");
+        titleRow.createCell(8).setCellValue("ipp");
+        int cell = 1;
+        for (Journal journal : list) {
+            Row row = sheet.createRow(cell);//从第二行开始保存数据
+            row.createCell(0).setCellValue(cell);
+            row.createCell(1).setCellValue(journal.getIssn());//将数据库的数据遍历出来
+            row.createCell(2).setCellValue(journal.getSubject().getName());
+            row.createCell(3).setCellValue(journal.getName());
+            row.createCell(4).setCellValue(journal.getFms());
+            row.createCell(5).setCellValue(journal.getJcr());
+            row.createCell(6).setCellValue(journal.getSjr());
+            row.createCell(7).setCellValue(journal.getSnip());
+            row.createCell(8).setCellValue(journal.getIpp());
+
+            cell++;
+        }
+        return wb;
     }
 
 }

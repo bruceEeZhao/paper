@@ -29,32 +29,13 @@
 
             <!-- right side-->
             <div class="five wide column">
-                <!-- news -->
-                <div class="ui attached segment">
-                    <!-- news head -->
-                    <div class="ui two column grid">
-                        <div class="column">
-                            <h3 class="ui header item">焦点新闻</h3>
-                        </div>
-                        <div class="right aligned column">
-                            <a href="#" th:href="@{news/list}" target="_blank" class="m-text-mini red">更多新闻</a>
-                        </div>
-                    </div>
-
-                    <!-- news content -->
-                    <div class="ui divider"></div>
-
-                    <div class="ui padded vertical segment ">
-                        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
-                        <p>商业和管理研究经费</p>
-                    </div>
-                    <div class="ui padded vertical segment ">
-                        <a href="#" target="_blank" ><i class="angle right icon"></i>中国商学院</a>
-                        <p>商业和管理研究经费</p>
-                    </div>
-
+                <div class="ui top attached segment">
+                    <img src="../static/images/FMS.png" th:src="@{/images/FMS.png}">
                 </div>
+
+                <div th:insert="_fragments :: news"></div>
             </div>
+
 
         </div>
     </div>
@@ -66,23 +47,26 @@
             <div class="ui header">我们如何与会员合作</div>
         </div>
         <div class="ui attached segment">
-            <div class="ui placeholder">
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
+            <p class="text" th:text="#{aboutus.corp}"></p>
         </div>
     </div>
 </div>
+
+
+<script>
+    var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//127.0.0.1/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
 
 </body>
 </html>

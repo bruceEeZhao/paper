@@ -18,7 +18,7 @@ public interface NewsService {
     Page<News> listNews(Pageable pageable);
     Page<News> listPublishedNews(Pageable pageable);
     List <News> listPublishedNesw(Integer size, Integer pagenum);
-    List <News> listPublishedNeswTop5();
+    List <News> listNews();
 
     void delNews(Long id);
 }

@@ -102,10 +102,8 @@ public class NewsServiceImpl implements NewsService{
 
     @Transactional
     @Override
-    public List<News> listPublishedNeswTop5() {
-        Sort order = Sort.by(Sort.Direction.DESC, "updateTime");
-        Pageable pageable = PageRequest.of(0,5,order);
-        return newsRespository.findTop(pageable);
+    public List<News> listNews() {
+        return newsRespository.findAll();
     }
 
     @Override

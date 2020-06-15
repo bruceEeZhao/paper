@@ -2,6 +2,7 @@ package com.ucas.paper.service;
 
 import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.JournalSearch;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,5 +27,7 @@ public interface JournalService {
     Journal updateJournalById(Long id, Journal journal);
 
     void deleteJournalById(Long id);
+
+    public XSSFWorkbook show();
 
 }

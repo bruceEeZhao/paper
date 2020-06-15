@@ -12,7 +12,12 @@ public class Specialist {
     @Column(nullable = false)
     @NotBlank(message = "姓名不能为空")
     private String name;
+    @NotBlank(message = "简介不能为空")
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private String brief; //简介
+    @NotBlank(message = "图片未上传")
+    private String photo;
 
     public Specialist() {
     }
@@ -41,12 +46,21 @@ public class Specialist {
         this.brief = brief;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public String toString() {
         return "Specialist{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", brief='" + brief + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
     }
 }

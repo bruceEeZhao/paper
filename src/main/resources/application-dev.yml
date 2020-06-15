@@ -23,3 +23,8 @@ logging:
 
 server:
   port: 8081
+
+file:
+  upload:
+    path: /home/bruce/Desktop/paperphoto/
+  mappath: /imagesupload

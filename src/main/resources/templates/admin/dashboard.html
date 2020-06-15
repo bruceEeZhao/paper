@@ -17,46 +17,48 @@
     <div class="ui container">
         <div class="ui four statistics">
             <div class="statistic">
-                <div class="value">
+                <div class="value" th:text="${subject}">
                     22
                 </div>
                 <div class="label">
-                    Saves
+                    学科数量
                 </div>
             </div>
             <div class="statistic">
-                <div class="text value">
-                    Three<br>
-                    Thousand
+                <div class="value" th:text="${journal}">
+                    22
                 </div>
                 <div class="label">
-                    Signups
+                    期刊数量
                 </div>
             </div>
             <div class="statistic">
-                <div class="value">
-                    <i class="plane icon"></i> 5
+                <div class="value" th:text="${news}">
+                    22
                 </div>
                 <div class="label">
-                    Flights
+                    新闻数量
                 </div>
             </div>
             <div class="statistic">
-                <div class="value">
-                    <img src="../images/avatar/small/joe.jpg" class="ui circular inline image">
-                    42
+                <div class="value" th:text="${specialist}">
+                    22
                 </div>
                 <div class="label">
-                    Team Members
+                    编辑数量
                 </div>
+            </div>
+
             </div>
         </div>
+    <img class="ui fluid image" th:src="@{/images/welcome.jpg}">
     </div>
+
 </div>
 
 
 
-<div th:insert="admin/_form :: journallist"></div>
+
 
 <!--<div th:insert="admin/_form :: journallist"></div>-->
 

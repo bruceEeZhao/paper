@@ -3,9 +3,7 @@ package com.ucas.paper.controller.admin;
 import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.News;
 import com.ucas.paper.entities.User;
-import com.ucas.paper.service.JournalService;
-import com.ucas.paper.service.TypeService;
-import com.ucas.paper.service.UserService;
+import com.ucas.paper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -42,6 +40,12 @@ public class AdminController {
     @Autowired
     private JournalService journalService;
 
+    @Autowired
+    private NewsService newsService;
+
+    @Autowired
+    private SpecialistService specialistService;
+
     @GetMapping
     public String loginPage() {
         return "admin/login";
@@ -50,8 +54,10 @@ public class AdminController {
     @GetMapping("dashboard")
     public String dashboard(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
                                         Pageable pageable,Model model) {
-        model.addAttribute("subjects", typeService.listType());
-        model.addAttribute("page",journalService.listJournal(pageable));
+        model.addAttribute("subject", typeService.listType().size());
+        model.addAttribute("journal",journalService.listJournal().size());
+        model.addAttribute("news", newsService.listNews().size());
+        model.addAttribute("specialist",specialistService.listSpecialist().size());
         return "admin/dashboard";
     }
 

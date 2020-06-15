@@ -1,10 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
+
 </head>
 <body>
+
+<!-- 导航 -->
+<nav th:insert="admin/_form :: navigation(4)"></nav>
+
+
+<div class="m-container-big m-padded-tb-big">
+    <div class="ui container">
+
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <form action="/admin/specialist/upload" method="post" enctype="multipart/form-data">
+            <input type="hidden"  name="id" th:value="${specialist.id}" th:if="${specialist != null}">
+            <div class="ui placeholder">
+                <div class="image" th:if="${#strings.isEmpty(filename)}"></div>
+                <img class="ui large image" th:src="@{${filename}}" th:unless="${#strings.isEmpty(filename)}">
+            </div>
+
+            <input type="file" name="file" accept="image/*">
+
+            <input type="submit" value="上传" class="ui teal button">
+        </form>
+
+
+        <form th:action="${specialist==null} ? @{/admin/specialist/edit} : @{/admin/specialist/edit{id}(id = ${specialist.id})}" method="post" >
+            <br>
+            <br>
+            <h2>个人信息</h2>
+
+            <input name="photo" type="hidden" th:value="${!#strings.isEmpty(filename)}?${filename}">
+
+            <div class="required field">
+            <div class="ui left labeled input">
+                <div class="ui teal basic label">姓名</div>
+                <input type="text" name="name" placeholder="姓名" th:value="${specialist != null}?${specialist.name}">
+            </div>
+            </div>
+            <h2>简介</h2>
+            <!--     markdown编辑器       -->
+            <div class="required field">
+                <div id="md-content"  style="z-index: 1 !important">
+                    <textarea name="brief"  th:text="${specialist != null} ?  ${specialist.brief}" style="display:none;">[TOC]
+#### Disabled options
+- TeX (Based on KaTeX);
+- Emoji;
+- Task lists;
+- HTML tags decode;
+- Flowchart and Sequence Diagram;
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui teal submit button">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+        var contentEditor;
+        $(function() {
+            contentEditor = editormd("md-content", {
+                width   : "100%",
+                height  : 640,
+                syncScrolling : "single",
+                path    : "/lib/editor/lib/"
+            });
+     });
+
+		$('.ui.dropdown').dropdown();
+
+		//消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
+
+		$('.ui.form').form({
+        fields : {
+            name : {
+                identifier: 'name',
+                rules: [{
+                    type : 'empty',
+                    prompt: "姓名不能为空"
+                }]
+            },
+            brief : {
+                identifier: 'brief',
+                rules: [{
+                    type : 'empty',
+                    prompt: "简介不能为空"
+                }]
+            }
+        }
+    })
+</script>
+
 
 </body>
 </html>

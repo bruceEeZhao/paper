@@ -3,6 +3,7 @@ package com.ucas.paper.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -17,6 +18,13 @@ import java.util.Map;
 
 @Configuration
 public class DruidConfig {
+
+    @Value("${spring.druid.user}")
+    private String user;
+
+    @Value("${spring.druid.password}")
+    private String password;
+
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource druid(){
@@ -29,9 +37,9 @@ public class DruidConfig {
     public ServletRegistrationBean statViewServlet() {
         ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
         Map<String,String> initParams = new HashMap<>();
-        initParams.put("loginUsername","admin");
-        initParams.put("loginPassword","123456");
-        initParams.put("allow",""); //默认允许所有访问
+        initParams.put("loginUsername",user);
+        initParams.put("loginPassword",password);
+        initParams.put("allow","localhost"); //默认允许所有访问
         bean.setInitParameters(initParams);
         return bean;
     }

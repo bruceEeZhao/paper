@@ -11,7 +11,7 @@ spring:
     #prefix: classpath:/templates/  默认前缀
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
 
   druid:

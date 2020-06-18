@@ -28,7 +28,7 @@
         </div>
 
         <form action="/admin/specialist/upload" method="post" enctype="multipart/form-data">
-            <input type="hidden"  name="id" th:value="${specialist.id}" th:if="${specialist != null}">
+            <input type="hidden"  name="id" th:value="${specialist != null} ? ${specialist.id}"  >
             <div class="ui placeholder">
                 <div class="image" th:if="${#strings.isEmpty(filename)}"></div>
                 <img class="ui large image" th:src="@{${filename}}" th:unless="${#strings.isEmpty(filename)}">

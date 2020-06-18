@@ -39,7 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
     // addResourceLocations是图片存放的真实路
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(mapPath + "/**").addResourceLocations("file:" + filePath);
+        registry.addResourceHandler(mapPath + "/**").addResourceLocations("file:"+filePath);
     }
 }
 

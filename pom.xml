@@ -18,6 +18,7 @@
 		<java.version>1.8</java.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.4.0</thymeleaf-layout-dialect.version>
+		<skipTests>true</skipTests><!--添加 -->
 	</properties>
 
 	<dependencies>

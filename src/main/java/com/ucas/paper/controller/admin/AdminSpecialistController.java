@@ -126,13 +126,35 @@ public class AdminSpecialistController {
 
     }
 
+    @GetMapping("specialist/{id}/delete")
+    public String deletespecialsit(@PathVariable("id") Long id, RedirectAttributes attributes) {
+        Specialist s = specialistService.getSpecialist(id);
+        if (s == null) {
+            logger.info("不存在该记录，不能删除");
+            attributes.addFlashAttribute("message","不存在该记录，不能删除");
+
+            return "redirect:/admin/specialists";
+        }
+        try {
+            specialistService.delSpecialist(id);
+            attributes.addFlashAttribute("message", "删除成功");
+        } catch (Exception e) {
+            logger.error(e.toString());
+            attributes.addFlashAttribute("message",e.toString());
+        }
+        finally {
+            return "redirect:/admin/specialists";
+        }
+
+    }
+
 
     // 执行上传
     @PostMapping("specialist/upload")
     public String upload(@RequestParam("file") MultipartFile file, Model model,@RequestParam("id") Long id) {
         if (file==null) {
             model.addAttribute("message", "没有选择文件");
-            return "/admin/specialistInput";
+            return "admin/specialistInput";
         }
         if (id!=null) {
             model.addAttribute("specialist",specialistService.getSpecialist(id));
@@ -144,7 +166,7 @@ public class AdminSpecialistController {
 
             if (oldName==null || "".equals(oldName)) {
                 model.addAttribute("message", "没有选择文件");
-                return "/admin/specialistInput";
+                return "admin/specialistInput";
             }
             //原文件的类型
             String type=oldName.substring(oldName.indexOf(".")); // 格式为.jpg 或 .png 或 ......
@@ -162,17 +184,17 @@ public class AdminSpecialistController {
         }
         //通过CommonsMultipartFile的方法直接写文件（注意这个时候）
         file.transferTo(tempFile);
-        logger.info(tempFile.getName());
+        logger.info(mapPath+"/"+filename);
 
         model.addAttribute("filename", mapPath+"/"+filename);
         model.addAttribute("message", "上传成功");
 
         } catch (Exception e) {
             model.addAttribute("message", "上传失败:"+e.toString());
-            return "/admin/specialistInput";
+            return "admin/specialistInput";
         }
 
-        return "/admin/specialistInput";
+        return "admin/specialistInput";
     }
 
 

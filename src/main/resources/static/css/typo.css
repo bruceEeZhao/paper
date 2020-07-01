@@ -1,6 +1,14 @@
 @charset "utf-8";
 
-.typo p {
+.typo p{
+    font-size: 20px;
+    font-weight: 300;
+    line-weight: 2;
+    text-align: justify;
+}
+
+.typo li ul, .typo li ol, .typo-ul ul, .typo-ul ol, .typo-ol ul, .typo-ol ol,.typo ul, .typo ol,
+.typo-ul, .typo-ol{
     font-size: 20px;
     font-weight: 300;
     line-weight: 2;

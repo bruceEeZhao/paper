@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>aboutus</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="admin/_form :: navigation(5)"></nav>
+
+<div class="m-container-big m-padded-tb-big">
+    <div class="ui container">
+
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <form action="#" method="post" class="ui form" th:action="${purpose == null} ? @{/admin/purpose/edit} : @{/admin/purpose/edit{id}(id = ${purpose.id})}">
+
+            <div class="ui header">
+                <p>期刊宗旨</p>
+            </div>
+
+            <!--     markdown编辑器       -->
+            <div class="required field">
+                <div id="md-content"  style="z-index: 1 !important">
+                    <textarea name="content" th:text="${purpose == null} ? '期刊宗旨' : ${purpose.content} " style="display:none;">[TOC]
+#### Disabled options
+- TeX (Based on KaTeX);
+- Emoji;
+- Task lists;
+- HTML tags decode;
+- Flowchart and Sequence Diagram;
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container">
+                <button  class="ui secondary basic button" >保存</button>
+            </div>
+        </form>
+
+        <br>
+
+        <form action="#" method="post" class="ui form" th:action="${about == null} ? @{/admin/aboutus/edit} : @{/admin/aboutus/edit{id}(id = ${about.id})}">
+
+            <div class="ui header">
+                <p>关于我们</p>
+            </div>
+
+            <!--     markdown编辑器       -->
+            <div class="required field">
+                <div id="md-content1"  style="z-index: 1 !important">
+                    <textarea name="content" th:text="${about == null} ? '关于我们' : ${about.content} " style="display:none;">[TOC]
+#### Disabled options
+ - TeX (Based on KaTeX);
+ - Emoji;
+ - Task lists;
+ - HTML tags decode;
+ - Flowchart and Sequence Diagram;
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container">
+                <button  class="ui secondary basic button" >保存</button>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    var contentEditor;
+        $(function() {
+            contentEditor = editormd("md-content", {
+                width   : "100%",
+                height  : 320,
+                syncScrolling : "single",
+                path    : "/lib/editor/lib/"
+            });
+     });
+
+     var contentEditor1;
+        $(function() {
+            contentEditor1 = editormd("md-content1", {
+                width   : "100%",
+                height  : 320,
+                syncScrolling : "single",
+                path    : "/lib/editor/lib/"
+            });
+     });
+
+
+
+     //消息提示关闭初始化
+    $('.message .close')
+    .on('click', function() {
+        $(this)
+            .closest('.message')
+            .transition('fade');
+    });
+
+
+    //<!--  表单验证  -->
+    $('.ui.form').form({
+        fields: {
+            content: {
+                identifier: 'content',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入内容'
+                }]
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>

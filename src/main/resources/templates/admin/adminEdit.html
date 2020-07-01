@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+</head>
+<body>
+
+
+<div class="m-container m-padded-tb-massive" style="max-width: 30em !important;">
+    <div class="ui container">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <div class="content">
+                        修改密码
+                    </div>
+                </h2>
+                <form class="ui large form" method="post" action="" th:action="@{/admin/editp}">
+                    <div class="ui stacked segment">
+                        <div class="required field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="Opassword" placeholder="原密码">
+                            </div>
+                        </div>
+                        <div class="required field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="Npassword1" placeholder="新密码">
+                            </div>
+                        </div>
+                        <div class="required field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="Npassword2" placeholder="确认新密码">
+                            </div>
+                        </div>
+                        <button class="ui fluid large teal submit button">修改</button>
+                    </div>
+
+                    <div class="ui error mini message"></div>
+                    <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名和密码错误</div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+<script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+
+<script>
+    $('.ui.form').form({
+        fields : {
+            username : {
+                identifier: 'username',
+                rules: [{
+                    type : 'empty',
+                    prompt: "请输入用户名"
+                }]
+            },
+            Opassword : {
+                identifier: 'Opassword',
+                rules: [{
+                    type : 'empty',
+                    prompt: "请输入密码"
+                }]
+            },
+            Npassword1 : {
+                identifier: 'Npassword1',
+                rules: [{
+                    type : 'empty',
+                    prompt: "请输入密码"
+                }]
+            },
+            Npassword2 : {
+                identifier: 'Npassword2',
+                rules: [{
+                    type : 'empty',
+                    prompt: "请输入密码"
+                }]
+            },
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,8 +1,7 @@
 package com.ucas.paper.controller.admin;
 
-import com.ucas.paper.entities.Journal;
-import com.ucas.paper.entities.News;
-import com.ucas.paper.entities.User;
+import com.ucas.paper.entities.*;
+import com.ucas.paper.handler.PasswordHandler;
 import com.ucas.paper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +45,7 @@ public class AdminController {
     @Autowired
     private SpecialistService specialistService;
 
+
     @GetMapping
     public String loginPage() {
         return "admin/login";
@@ -84,6 +84,50 @@ public class AdminController {
     }
 
 
+    @GetMapping("edit")
+    public String adminEdit() {
+        return "admin/adminEdit";
+    }
+
+    @PostMapping("editp")
+    public String adminEditPassword(HttpSession session,RedirectAttributes attributes,
+                                    @RequestParam("Opassword") String opwd,
+                                    @RequestParam("Npassword1") String npwd1,
+                                    @RequestParam("Npassword2") String npwd2) {
+        if (opwd.isEmpty() || npwd1.isEmpty() || npwd2.isEmpty()) {
+            attributes.addFlashAttribute("message", "密码不能为空");
+            return "redirect:/admin/edit";
+        }
+
+        if (!npwd1.equals(npwd2)) {
+            attributes.addFlashAttribute("message", "两次密码输入不一致");
+            return "redirect:/admin/edit";
+        }
+
+        if(!PasswordHandler.checkPassword(npwd1)) {
+            attributes.addFlashAttribute("message", "密码规则：包含数字，大写字母，小写字母，特殊符号,长度大于6小于128");
+            return "redirect:/admin/edit";
+        }
+
+
+        if (userService.checkUser("admin", opwd) == null) {
+            attributes.addFlashAttribute("message", "旧密码错误");
+            return "redirect:/admin/edit";
+        }
+
+
+        //验证正确，修改密码,修改完成后重新登录
+
+        if(userService.upDateUser("admin", opwd, npwd1)) {
+            session.removeAttribute("loginUser");
+            attributes.addFlashAttribute("message", "密码修改成功，请重新登录");
+            return "redirect:/admin";
+        } else {
+            attributes.addFlashAttribute("message", "密码修改失败");
+            return "redirect:/admin/edit";
+        }
+
+    }
 
 
 
@@ -96,4 +140,84 @@ public class AdminController {
     /**
      * ip
      */
+
+    /**
+     * aboutus
+     */
+    @Autowired
+    private AboutusService aboutusService;
+
+    @Autowired
+    private PurposeService purposeService;
+
+    @GetMapping("aboutus")
+    public String aboutusList(Model model) {
+        List<Aboutus> about = aboutusService.getAboutus();
+        List<Purpose> purpose = purposeService.getPurpose();
+
+        if (!about.isEmpty()) {
+            model.addAttribute("about", about.get(0));
+        } else {
+            model.addAttribute("about", null);
+        }
+        if (!purpose.isEmpty()) {
+            model.addAttribute("purpose", purpose.get(0));
+        } else {
+            model.addAttribute("purpose", null);
+        }
+        return "admin/aboutus";
+    }
+
+    @PostMapping("aboutus/edit{id}")
+    public String aboutusEdit(@Valid Aboutus about,
+                              BindingResult result,
+                              @PathVariable("id") Long id,
+                              RedirectAttributes attributes){
+
+        if (id == null) {
+            aboutusService.addAboutus(about);
+        } else {
+            aboutusService.editAboutus(id, about);
+        }
+
+        if (result.hasErrors()) {
+            logger.info("传递参数有误:" + result.getFieldError().toString());
+
+            String errorms = "";
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            for (int i = 0; i < fieldErrors.size(); i++) {
+                errorms += fieldErrors.get(i).getDefaultMessage() + "\n";
+            }
+
+            attributes.addFlashAttribute("message", errorms);
+        }
+
+        return  "redirect:/admin/aboutus";
+    }
+
+    @PostMapping("purpose/edit{id}")
+    public String purposeEdit(@Valid Purpose purpose,
+                              BindingResult result,
+                              @PathVariable("id") Long id,
+                              RedirectAttributes attributes){
+        if (id == null) {
+            purposeService.addPurpose(purpose);
+        } else {
+            purposeService.editPurpose(id, purpose);
+        }
+
+        if (result.hasErrors()) {
+            logger.info("传递参数有误:" + result.getFieldError().toString());
+
+            String errorms = "";
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            for (int i = 0; i < fieldErrors.size(); i++) {
+                errorms += fieldErrors.get(i).getDefaultMessage() + "\n";
+            }
+
+            attributes.addFlashAttribute("message", errorms);
+        }
+
+        return  "redirect:/admin/aboutus";
+    }
 }

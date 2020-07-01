@@ -1,5 +1,7 @@
 package com.ucas.paper.entities;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -7,10 +9,10 @@ import java.util.Date;
 @Entity
 @Table(name = "journal")
 public class Journal {
-
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(unique = true, nullable = false)
     @NotBlank(message = "issn不能为空")
     private String issn;
@@ -22,10 +24,15 @@ public class Journal {
     @Column(nullable = false)
     @NotBlank(message = "期刊名称不能为空")
     private String name;  //期刊名称
+
     private String fms;
+
     private Integer jcr;
+
     private Integer sjr;
+
     private Integer snip;
+
     private Integer ipp;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
@@ -33,6 +40,17 @@ public class Journal {
     private Date updateTime;
 
     public Journal() {
+    }
+
+    public Journal(@NotBlank(message = "issn不能为空") String issn, Type subject, @NotBlank(message = "期刊名称不能为空") String name, String fms, Integer jcr, Integer sjr, Integer snip, Integer ipp) {
+        this.issn = issn;
+        this.subject = subject;
+        this.name = name;
+        this.fms = fms;
+        this.jcr = jcr;
+        this.sjr = sjr;
+        this.snip = snip;
+        this.ipp = ipp;
     }
 
     public Long getId() {
@@ -54,6 +72,8 @@ public class Journal {
     public Type getSubject() {
         return subject;
     }
+
+    public String getSubjectName() { return subject.getName(); }
 
     public void setSubject(Type subject) {
         this.subject = subject;
@@ -139,4 +159,6 @@ public class Journal {
                 ", updateTime=" + updateTime +
                 '}';
     }
+
+
 }

@@ -21,6 +21,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class JournalServiceImpl implements JournalService {
     @Transactional
     @Override
     public Page<Journal> listJournal(Pageable pageable) {
-        return journalRespository.findAll(pageable);
+        return  journalRespository.findAllByQuery(pageable);
     }
 
     @Override
@@ -82,6 +83,7 @@ public class JournalServiceImpl implements JournalService {
                 if (search.getSubjectId()!=null) {
                     predicates.add(criteriaBuilder.equal(root.<Long>get("subject").get("id"),search.getSubjectId()));
                 }
+                criteriaQuery.orderBy(criteriaBuilder.desc(root.get("fms")));
                 criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
                 return null;
             }

@@ -18,14 +18,13 @@
 
 <div th:fragment="journallist" class="m-container-big m-padded-tb-big">
     <div class="ui container">
-        <form action="#" method="post" th:action="@{/journals/search}" class="ui secondary segment form">
+        <form action="#" method="get" th:action="@{/journals/search}" class="ui secondary segment form">
             <input type="hidden" name="page">
 
             <!-- 搜索 -->
             <div class="ui horizontal list">
                 <div class="item">
                     <div class="content">
-                        <div class="ui mini header">学科</div>
                         <div>
                             <div class="ui selection dropdown">
                                 <input type="hidden" name="subject.id">
@@ -40,7 +39,6 @@
                 </div>
                 <div class="item">
                     <div class="content">
-                        <div class="ui header">期刊ISSN</div>
                         <div class="ui input focus">
                             <input type="text" name="issn" placeholder="ISSN">
                         </div>
@@ -48,7 +46,6 @@
                 </div>
                 <div class="item">
                     <div class="content">
-                        <div class="ui header">期刊名称</div>
                         <div class="ui input focus">
                             <input type="text" name="name" placeholder="期刊名称">
                         </div>
@@ -60,11 +57,11 @@
                         <div class="ui selection dropdown">
                             <input type="hidden" name="numb_show">
                             <i class="dropdown icon"></i>
-                            <div class="default text">20</div>
+                            <div class="default text" th:text="${numb_show == null} ? '20' : ${numb_show}">20</div>
                             <div class="menu" >
-                                <div class="item" th:data-value="20" >20</div>
-                                <div class="item" th:data-value="30">30</div>
-                                <div class="item" th:data-value="40">40</div>
+                                <div class="item" th:data-value=20>20</div>
+                                <div class="item" th:data-value=30>30</div>
+                                <div class="item" th:data-value=40>40</div>
                             </div>
                         </div>
                     </div>
@@ -85,7 +82,7 @@
         <div id="table-container">
             <table th:fragment="journal-list" class="ui celled structured table">
                 <thead>
-                <tr>
+                <tr class="center aligned">
                     <th rowspan="2">序号</th>
                     <th rowspan="2">ISSN</th>
                     <th rowspan="2">学科</th>
@@ -93,34 +90,50 @@
                     <th colspan="5">评级</th>
                 </tr>
                 <tr>
-                    <th>FMS</th>
-                    <th>JCR排序</th>
-                    <th>SJR排序</th>
-                    <th>SNIP排序</th>
-                    <th>IPP排序</th>
+                    <th >FMS等级</th>
+                    <th >JCR排序</th>
+                    <th >SJR排序</th>
+                    <th >SNIP排序</th>
+                    <th >IPP排序</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="journal,iterStat : ${page.content}">
-                    <td th:text="${iterStat.count}">1</td>
-                    <td th:text="${journal.issn}">ISSN</td>
+                    <td class="center aligned" th:text="${iterStat.count}">1</td>
+                    <td class="center aligned" th:text="${journal.issn}">ISSN</td>
                     <td th:text="${journal.subject!=null} ? ${journal.subject.name}">subject</td>
                     <td th:text="${journal.name}">Accounting Review</td>
-                    <td th:text="${journal.fms}">4*</td>
-                    <td th:text="${journal.jcr}">4</td>
-                    <td th:text="${journal.sjr}">3</td>
-                    <td th:text="${journal.snip}">3</td>
-                    <td th:text="${journal.ipp}">3</td>
+                    <td class="center aligned" th:text="${journal.fms}">4*</td>
+                    <td class="center aligned" th:text="${journal.jcr}">4</td>
+                    <td class="center aligned" th:text="${journal.sjr}">3</td>
+                    <td class="center aligned" th:text="${journal.snip}">3</td>
+                    <td class="center aligned" th:text="${journal.ipp}">3</td>
                 </tr>
                 </tbody>
 
                 <tfoot>
-                <tr>
+                <tr th:if="${search==null}">
                     <th colspan="13">
-                        <div class="ui right floated pagination menu" th:if="${page.totalPages}>1">
-                            <a th:href="@{/journals(page = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
-                            <a th:href="@{/journals(page = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
+                        <div class="ui right floated pagination menu" >
+                            <a th:href="@{/journals(num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >首页</a>
+                            <a th:href="${page.first == true} ? @{/journals(num=${numb_show == null} ? '20' : ${numb_show})} : @{/journals(page = ${page.number}-1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >上一页</a>
+                            <a th:href="${page.last == true} ? @{/journals(page = ${page.totalPages}-1, num=${numb_show == null} ? '20' : ${numb_show})} : @{/journals(page = ${page.number}+1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >下一页</a>
+                            <a th:href="@{/journals(page = ${page.totalPages}-1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >尾页</a>
                         </div>
+                        <a href="#" th:href="@{/journal/input}" class="ui mini left floated teal basic button">新增</a>
+                        <a href="#" th:href="@{/journal/upload}" class="ui mini left floated teal basic button">批量导入</a>
+                    </th>
+                </tr>
+                <tr th:if="${search!=null}">
+                    <th colspan="13">
+                        <div class="ui right floated pagination menu" >
+                            <a th:href="@{/journals/search(page = 0, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >首页</a>
+                            <a th:href="${page.first == true} ? @{/journals/search(page = 0, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})} : @{/journals/search(page = ${page.number}-1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >上一页</a>
+                            <a th:href="${page.last == true} ? @{/journals/search(page = ${page.totalPages}-1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})} : @{/journals/search(page = ${page.number}+1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >下一页</a>
+                            <a th:href="@{/journals/search(page = ${page.totalPages}-1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >尾页</a>
+                        </div>
+                        <a href="#" th:href="@{/journal/input}" class="ui mini left floated teal basic button">新增</a>
+                        <a href="#" th:href="@{/journal/upload}" class="ui mini left floated teal basic button">批量导入</a>
                     </th>
                 </tr>
                 </tfoot>

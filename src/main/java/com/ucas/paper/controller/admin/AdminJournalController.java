@@ -1,24 +1,29 @@
 package com.ucas.paper.controller.admin;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.ucas.paper.entities.Journal;
-import com.ucas.paper.entities.JournalSearch;
+import com.ucas.paper.entities.JournalImport;
 import com.ucas.paper.entities.Type;
 import com.ucas.paper.service.JournalService;
 import com.ucas.paper.service.TypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -39,10 +44,19 @@ public class AdminJournalController {
 
     //返回journal列表
     @GetMapping("journals")
-    public String journaLlist(@PageableDefault(size = 20, sort = {"id"}, direction = Sort.Direction.DESC)
-                                      Pageable pageable, Model model) {
+    public String journaLlist(Pageable pageable, Model model,Integer page,
+                              @RequestParam(value = "num", defaultValue = "20") Integer num) {
+        if (page == null || page < 0){
+            page = 0;
+        }
+
+
+        Sort order = Sort.by(Sort.Direction.DESC, "fms");
+        pageable = PageRequest.of(page,num,order);
+
         model.addAttribute("subjects", typeService.listType());
         model.addAttribute("page",journalService.listJournal(pageable));
+        model.addAttribute("numb_show", num);
         return "admin/journalList";
     }
 
@@ -154,6 +168,78 @@ public class AdminJournalController {
             return "redirect:/admin/journals";
         }
 
+    }
+
+
+    @GetMapping("journal/upload")
+    public String journalLoad() {
+        return "admin/journalUpload";
+    }
+
+    @PostMapping("journal/upload")
+    public String journalUpLoad(@RequestParam("file") MultipartFile file) {
+        ImportParams importParams = new ImportParams();
+        // 数据处理
+//        importParams.setHeadRows(1);
+//        importParams.setTitleRows(1);
+
+        // 需要验证
+        importParams.setNeedVerfiy(true);
+
+        try {
+            ExcelImportResult<JournalImport> result = ExcelImportUtil.importExcelMore(file.getInputStream(), JournalImport.class,
+                    importParams);
+
+            List<JournalImport> successList = result.getList();
+            List<JournalImport> failList = result.getFailList();
+
+            for (JournalImport journal : successList) {
+                logger.info("成功列表" + journal.toString());
+                //journalService.addJournal(journal);
+                Journal j = ConvertToJournal(journal);
+                if (j!=null) {
+                    journalService.addJournal(j);
+                }
+            }
+
+            for (JournalImport journal : failList) {
+                logger.info("失败列表" + journal.toString());
+                //journalService.addJournal(journal);
+            }
+        } catch (IOException e) {
+            logger.error(e.toString());
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+
+        return "redirect:/admin/journals";
+    }
+
+    private Journal ConvertToJournal(JournalImport j) {
+        List <Type> types = typeService.listType();
+        Boolean flag = false;
+        Type t = new Type();
+        if(types.isEmpty()) {
+            return null;
+        }
+
+        for (Type type :
+                types) {
+            if (type.getName().equals(j.getSubject())) {
+                flag=true;
+                t.setId(type.getId());
+                t.setName(type.getName());
+            }
+        }
+
+        if (flag) {
+            Journal journal = new Journal(j.getIssn(),t,
+                    j.getName(), j.getFms(), j.getJcr(),
+                    j.getSjr(), j.getSnip(), j.getIpp());
+
+            return journal;
+        }
+        return null;
     }
 
 }

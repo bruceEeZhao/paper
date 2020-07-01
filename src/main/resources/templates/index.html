@@ -37,9 +37,7 @@
 
                 <div class="ui bottom attached segment">
                     <h1>期刊评级指南宗旨</h1>
-                    <p th:text="#{aboutus.zongzhi}">本指南旨在xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    <p th:utext="${purpose == null} ? '':${purpose.content}">
                     </p>
                 </div>
             </div>
@@ -54,37 +52,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- 标签页 -->
-<div class="ui container">
-    <div class="ui top attached tabular menu">
-        <a class="active item" data-tab="first">评级解释</a>
-        <a class="item" data-tab="second">编辑团队</a>
-    </div>
-    <div class="ui bottom attached active tab segment" data-tab="first" >
-        <p th:text="#{aboutus.pinjijieshi}">FMS评级基于ABS,ABDC等。。。。</p>
-    </div>
-
-
-    <div class="ui bottom attached tab segment" data-tab="second">
-        <div class="ui cards" >
-
-            <div class="card" th:each="specialist : ${specialists}">
-                <div class="content">
-                    <img height="200" width="300" class="ui image" th:src="@{${specialist.photo}}">
-                    <div class="ui divider"></div>
-                    <div class="header" th:text="${specialist.name}">
-                        徐伟宣
-                    </div>
-                    <div class="description" th:utext="${specialist.brief}">
-                        主编，主要负责xxxxxxxxxxxxxxxxxxxx
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
 </div>
 
 <script type="text/javascript">

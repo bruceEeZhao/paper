@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PurposeRespository extends JpaRepository<Purpose, Long> {
-    @Query("select b from Purpose b order by b.id desc")
-    List<Purpose> findTop(Pageable pageable);
 }

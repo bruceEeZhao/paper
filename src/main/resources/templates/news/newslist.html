@@ -24,10 +24,10 @@
 
         <div class="ui segment">
         <!-- 搜索 -->
-        <form name="search"  method="post" action="#" th:action="@{/news/search}" target="_blank">
+        <form name="search"  method="get" action="#" th:action="@{/news/search}" target="_blank">
             <div class="ui inverted category  search">
                 <div class="ui icon input">
-                    <input name="search_news_a" class="prompt" type="text" placeholder="Search animals...">
+                    <input name="search_news_a" class="prompt" type="text" th:placeholder="${search==null}?'Search animals...':${search}">
                     <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                 </div>
                 <div class="results"></div>
@@ -58,26 +58,34 @@
                 </div>
                 </div>
 
-                <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+                <div class="ui bottom attached segment">
 
-                    <div class="ui middle aligned two column grid">
-                        <div class="column">
-                            <a th:href="@{/news(page = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
-                        </div>
-                        <div class="column">
-                            <a th:href="@{/news(page = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
-                        </div>
-                    </div>
+                    <tr th:if="${search==null}">
+                        <th >
+                            <div class="ui pagination menu" >
+                                <a th:href="@{/news}" class="mini item" >首页</a>
+                                <a th:href="${page.first == true} ? @{/news(page = 0)}: @{/news(page = ${page.number}-1)}" class="mini item" >上一页</a>
+                                <a th:href="${page.last == true} ? @{/news(page = ${page.totalPages}-1)} : @{/news(page = ${page.number}+1)}" class="mini item" >下一页</a>
+                                <a th:href="@{/news(page = ${page.totalPages}-1)}" class="mini item" >尾页</a>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr th:if="${search!=null}">
+                        <th >
+                            <div class="ui pagination menu" >
+                                <a th:href="@{/news/search(search_news_a=${search})}" class="mini item" >首页</a>
+                                <a th:href="${page.first == true} ? @{/news/search(page = 0, search_news_a=${search==null}?'':${search})}: @{/news/search(page = ${page.number}-1, search_news_a=${search==null}?'':${search})}" class="mini item" >上一页</a>
+                                <a th:href="${page.last == true} ? @{/news/search(page = ${page.totalPages}-1, search_news_a=${search==null}?'':${search})} : @{/news/search(page = ${page.number}+1, search_news_a=${search==null}?'':${search})}" class="mini item" >下一页</a>
+                                <a th:href="@{/news/search(page = ${page.totalPages}-1, search_news_a=${search==null}?'':${search})}" class="mini item" >尾页</a>
+                            </div>
+                        </th>
+                    </tr>
                 </div>
             </div>
 
 
             <!-- right side-->
             <div class="five wide column">
-                <div class="ui top attached segment">
-                    <img src="../../static/images/FMS.png" th:src="@{/images/FMS.png}">
-                </div>
-
                 <div th:insert="_fragments :: news"></div>
             </div>
         </div>

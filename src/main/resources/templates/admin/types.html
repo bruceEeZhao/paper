@@ -19,13 +19,13 @@
 <div class="m-container-big m-padded-tb-big">
     <div class="ui container">
         <!-- 搜索 -->
-        <form action="#" method="post" th:action="@{/admin/types/search}" class="ui secondary segment form">
+        <form action="#" method="get" th:action="@{/admin/types/search}" class="ui secondary segment form">
             <div class="ui horizontal list">
             <div class="item">
                 <div class="content">
                     <div class="ui header">学科名称</div>
                     <div class="ui input focus">
-                        <input type="text" name="type" placeholder="学科名称">
+                        <input type="text" name="type" th:placeholder="${search==null}?'学科名称':${search}">
                     </div>
                 </div>
             </div>
@@ -65,9 +65,17 @@
             </tbody>
             <tfoot>
             <tr><th colspan="4">
-                <div class="ui right floated pagination menu" th:if="${page.totalPages}>1">
-                    <a th:href="@{/admin/types(page = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
-                    <a th:href="@{/admin/types(page = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
+                <div class="ui right floated pagination menu" th:if="${search==null}">
+                    <a th:href="@{/admin/types}" class="mini item" >首页</a>
+                    <a th:href="${page.first == true} ? @{/admin/types(page = 0)}: @{/admin/types(page = ${page.number}-1)}" class="mini item" >上一页</a>
+                    <a th:href="${page.last == true} ? @{/admin/types(page = ${page.totalPages}-1)} : @{/admin/types(page = ${page.number}+1)}" class="mini item" >下一页</a>
+                    <a th:href="@{/admin/types(page = ${page.totalPages}-1)}" class="mini item" >尾页</a>
+                </div>
+                <div class="ui right floated pagination menu" th:if="${search!=null}">
+                    <a th:href="@{/admin/types/search(type=${search})}" class="mini item" >首页</a>
+                    <a th:href="${page.first == true} ? @{/admin/types/search(page = 0, type=${search==null}?'':${search})}: @{/admin/types/search(page = ${page.number}-1, type=${search==null}?'':${search})}" class="mini item" >上一页</a>
+                    <a th:href="${page.last == true} ? @{/admin/types/search(page = ${page.totalPages}-1, type=${search==null}?'':${search})} : @{/admin/types/search(page = ${page.number}+1, type=${search==null}?'':${search})}" class="mini item" >下一页</a>
+                    <a th:href="@{/admin/types/search(page = ${page.totalPages}-1, type=${search==null}?'':${search})}" class="mini item" >尾页</a>
                 </div>
                 <a href="#" th:href="@{/admin/type/input}" class="ui mini left floated teal basic button">新增</a>
             </th>

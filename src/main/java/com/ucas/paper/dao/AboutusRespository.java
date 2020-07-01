@@ -10,6 +10,4 @@ import java.util.List;
 
 public interface AboutusRespository extends JpaRepository<Aboutus, Long> {
 
-    @Query("select b from Aboutus b order by b.id desc")
-    List<Aboutus> findTop(Pageable pageable);
 }

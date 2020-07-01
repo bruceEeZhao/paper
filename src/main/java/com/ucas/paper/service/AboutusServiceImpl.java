@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,43 +21,34 @@ public class AboutusServiceImpl implements AboutusService {
     private AboutusRespository aboutusRespository;
 
     @Override
-    public List<Aboutus> getAboutus() {
-        Pageable pageable = PageRequest.of(0,1);
-        return aboutusRespository.findTop(pageable);
+    public Aboutus getAboutus() {
+
+        List<Aboutus> aboutuses = aboutusRespository.findAll();
+        if (aboutuses.isEmpty()) {
+            return null;
+        } else {
+            return aboutuses.get(0);
+        }
     }
 
+    @Transactional
     @Override
-    public Aboutus addAboutus(Aboutus about) {
-        if (!getAboutus().isEmpty()) {
-            throw new NotFoundException("已经存在宗旨，不能添加多个");
-        }
-
+    public Aboutus updateAboutus(Aboutus about) {
+        aboutusRespository.deleteAll();
         return aboutusRespository.save(about);
     }
 
-    @Override
-    public Aboutus editAboutus(Long id, Aboutus about) {
-        Aboutus j = aboutusRespository.findById(id).orElse(null);
-
-        if (j == null) {
-            throw new NotFoundException("不存在该类型");
-        }
-        BeanUtils.copyProperties(about, j);
-
-        return aboutusRespository.save(j);
-    }
 
     @Override
     public Aboutus getAndConvert() {
-        List<Aboutus> about = getAboutus();
+        Aboutus about = getAboutus();
 
-        if (about.isEmpty()) {
+        if (about == null) {
             return null;
         }
 
-
         Aboutus n = new Aboutus();
-        BeanUtils.copyProperties(about.get(0), n);
+        BeanUtils.copyProperties(about, n);
         String content = n.getContent();
 
         n.setContent(MarkdownHandler.markdownToHtml(content));

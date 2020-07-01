@@ -1,6 +1,8 @@
 package com.ucas.paper.controller.admin;
 
 import com.ucas.paper.entities.News;
+import com.ucas.paper.entities.NewsRecommend;
+import com.ucas.paper.service.NewsReService;
 import com.ucas.paper.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -33,6 +32,9 @@ public class AdminNewsController {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private NewsReService newsReService;
 
     @GetMapping("news")
     public String newsList(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
@@ -149,6 +151,40 @@ public class AdminNewsController {
         finally {
             return "redirect:/admin/news";
         }
+    }
+
+    @GetMapping("news/recommend")
+    public String newsRecommend(Model model) {
+        model.addAttribute("news",newsService.listNews());
+        return "admin/newsRecommend";
+    }
+
+    @PostMapping("/news/recommend")
+    public String newsRecommend(@RequestParam("pic") String pic,
+                                @RequestParam("newid") Long newid,
+                                RedirectAttributes attributes) {
+        if (pic.trim().isEmpty()) {
+            attributes.addFlashAttribute("message", "首图地址不能为空");
+            return "redirect:/admin/recommend";
+        }
+        if (newid == null) {
+            attributes.addFlashAttribute("message", "未选择新闻");
+            return "redirect:/admin/recommend";
+        }
+
+        News nw = newsService.getNews(newid);
+        if (nw == null) {
+            attributes.addFlashAttribute("message", "未找到新闻"+ newid);
+            return "redirect:/admin/recommend";
+        }
+
+        NewsRecommend nr = new NewsRecommend();
+        nr.setPic(pic);
+        nr.setNw(nw);
+        newsReService.updateRe(nr);
+
+        attributes.addFlashAttribute("message", "置顶成功"+ newid);
+        return "redirect:/admin/news";
     }
 
 }

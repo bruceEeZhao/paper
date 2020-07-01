@@ -152,33 +152,20 @@ public class AdminController {
 
     @GetMapping("aboutus")
     public String aboutusList(Model model) {
-        List<Aboutus> about = aboutusService.getAboutus();
-        List<Purpose> purpose = purposeService.getPurpose();
 
-        if (!about.isEmpty()) {
-            model.addAttribute("about", about.get(0));
-        } else {
-            model.addAttribute("about", null);
-        }
-        if (!purpose.isEmpty()) {
-            model.addAttribute("purpose", purpose.get(0));
-        } else {
-            model.addAttribute("purpose", null);
-        }
+        model.addAttribute("about", aboutusService.getAboutus());
+        model.addAttribute("purpose", purposeService.getPurpose());
         return "admin/aboutus";
     }
 
-    @PostMapping("aboutus/edit{id}")
+    @PostMapping("aboutus/edit")
     public String aboutusEdit(@Valid Aboutus about,
                               BindingResult result,
-                              @PathVariable("id") Long id,
                               RedirectAttributes attributes){
 
-        if (id == null) {
-            aboutusService.addAboutus(about);
-        } else {
-            aboutusService.editAboutus(id, about);
-        }
+
+        aboutusService.updateAboutus(about);
+
 
         if (result.hasErrors()) {
             logger.info("传递参数有误:" + result.getFieldError().toString());
@@ -195,16 +182,12 @@ public class AdminController {
         return  "redirect:/admin/aboutus";
     }
 
-    @PostMapping("purpose/edit{id}")
+    @PostMapping("purpose/edit")
     public String purposeEdit(@Valid Purpose purpose,
                               BindingResult result,
-                              @PathVariable("id") Long id,
                               RedirectAttributes attributes){
-        if (id == null) {
-            purposeService.addPurpose(purpose);
-        } else {
-            purposeService.editPurpose(id, purpose);
-        }
+
+        purposeService.updatePurpose(purpose);
 
         if (result.hasErrors()) {
             logger.info("传递参数有误:" + result.getFieldError().toString());

@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
 </head>
-<body>
+<body class="">
 
 <!-- 导航 -->
 <nav th:fragment="navigation(n)" class="ui inverted attached segment m-padded-tb-mini">
@@ -38,6 +38,19 @@
 
 <!-- news -->
 <div th:fragment="news" class="ui attached segment">
+
+
+    <div class="items" th:if="${newr != null}">
+        <div class="ui item">
+            <img src="https://picsum.photos/200/300" th:src="@{${newr.pic}}" width="250px" height="130px">
+        </div>
+        <div class="ui item">
+            <a href="#" th:href="@{/news/{id}(id=${newr.nw.id})}" target="_blank" th:text="${newr.nw.title}"><i class="angle right icon"></i>中国商学院</a>
+            <p  th:text="${#dates.format(newr.nw.updateTime,'yyyy-MM-dd')}"><i class="calendar icon"></i>商业和管理研究经费</p>
+        </div>
+    </div>
+    <br>
+
     <!-- news head -->
     <div class="ui grid">
         <div class="column">
@@ -56,6 +69,37 @@
 
 
 </div>
+
+<footer th:fragment="footer" class="ui inverted vertical segment">
+    <div class="ui container">
+        <div class="ui inverted divided grid">
+            <div class="three wide column">
+                <img src="../static/images/fms_2.png" th:src="@{/images/fms_2.png}" class="ui rounded image" style="width:120px">
+            </div>
+
+            <div class="five wide column">
+                <img src="../static/images/logo_word.png" th:src="@{/images/logo_word.png}" class="ui rounded image" style="width:190px">
+            </div>
+
+            <div class="seven wide column">
+
+                <div class="item">
+                    <div class="content">
+                        <a class="header">联系我们</a>
+                        <div class="meta">
+                            <span></span>
+                        </div>
+                        <div class="description">
+                            <p>京ICP备12038169号-2<br>
+                                <img th:src="@{/images/jing.png}">京公网安备 11010802010035 号<br>联系我们 © FMS-Journal  (联系我们的邮箱为fmsjournal@163.com)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
 
 </body>
 </html>

@@ -21,10 +21,10 @@
 <div class="m-container-big m-padded-tb-big">
     <div class="ui container">
         <!-- 搜索 -->
-        <form name="search"  method="post" action="#" th:action="@{/admin/news/search}" target="_blank">
+        <form name="search"  method="get" action="#" th:action="@{/admin/news/search}" target="_blank">
             <div class="ui category search">
                 <div class="ui icon input">
-                    <input name="search_news_a" class="prompt" type="text" placeholder="Search animals...">
+                    <input name="search_news_a" class="prompt" type="text" th:placeholder="${search==null}?'Search animals...':${search}">
                     <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                 </div>
                 <div class="results"></div>
@@ -51,9 +51,9 @@
                 <td th:text="${news.title}">新闻标题</td>
                 <td>
                     <div class="ui checkbox">
-                    <input type="checkbox" th:checked="${news.published}" disabled="disabled">
-                    <label>已发布</label>
-                </div>
+                        <input type="checkbox" th:checked="${news.published}" disabled="disabled">
+                        <label>已发布</label>
+                    </div>
                 </td>
                 <td>
                     <a href="#" th:href="@{/admin/news/{id}/input(id=${news.id})}" class="ui mini teal basic button">编辑</a>
@@ -64,11 +64,20 @@
             </tbody>
             <tfoot>
             <tr><th colspan="4">
-                <div class="ui right floated pagination menu" th:if="${page.totalPages}>1">
-                    <a th:href="@{/admin/news(page = ${page.number}-1)}" class="mini item" th:unless="${page.first}">上一页</a>
-                    <a th:href="@{/admin/news(page = ${page.number}+1)}" class="mini item" th:unless="${page.last}">下一页</a>
+                <div class="ui right floated pagination menu" th:if="${search==null}">
+                    <a th:href="@{/admin/news}" class="mini item" >首页</a>
+                    <a th:href="${page.first == true} ? @{/admin/news(page = 0)}: @{/admin/news(page = ${page.number}-1)}" class="mini item" >上一页</a>
+                    <a th:href="${page.last == true} ? @{/admin/news(page = ${page.totalPages}-1)} : @{/admin/news(page = ${page.number}+1)}" class="mini item" >下一页</a>
+                    <a th:href="@{/admin/news(page = ${page.totalPages}-1)}" class="mini item" >尾页</a>
+                </div>
+                <div class="ui right floated pagination menu" th:if="${search!=null}">
+                    <a th:href="@{/admin/news/search(search_news_a=${search})}" class="mini item" >首页</a>
+                    <a th:href="${page.first == true} ? @{/admin/news/search(page = 0, search_news_a=${search==null}?'':${search})}: @{/admin/news/search(page = ${page.number}-1, search_news_a=${search==null}?'':${search})}" class="mini item" >上一页</a>
+                    <a th:href="${page.last == true} ? @{/admin/news/search(page = ${page.totalPages}-1, search_news_a=${search==null}?'':${search})} : @{/admin/news/search(page = ${page.number}+1, search_news_a=${search==null}?'':${search})}" class="mini item" >下一页</a>
+                    <a th:href="@{/admin/news/search(page = ${page.totalPages}-1, search_news_a=${search==null}?'':${search})}" class="mini item" >尾页</a>
                 </div>
                 <a href="#" th:href="@{/admin/news/input}" class="ui mini left floated teal basic button">新增</a>
+                <a href="#" th:href="@{/admin/news/recommend}" class="ui mini left floated teal basic button">置顶新闻</a>
             </th>
             </tr>
             </tfoot>
@@ -88,6 +97,7 @@
 
     //<!--  下拉菜单激活  -->
 	$('.ui.dropdown').dropdown();
+
 
 
 </script>

@@ -1,5 +1,6 @@
 package com.ucas.paper.controller;
 
+import com.ucas.paper.service.NewsReService;
 import com.ucas.paper.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +25,14 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private NewsReService newsReService;
+
     @GetMapping("/news")
     public String newslist(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
         model.addAttribute("news",newsService.listPublishedNesw(5,0));
         model.addAttribute("page", newsService.listPublishedNews(pageable));
+        model.addAttribute("newr", newsReService.getNewRe());
         return "news/newslist";
     }
 
@@ -35,6 +40,7 @@ public class NewsController {
     public String newsread(@PathVariable("id") Long id,
                            Model model) {
         model.addAttribute("news", newsService.getAndConvert(id));
+        model.addAttribute("newr", newsReService.getNewRe());
         return "news/newsread";
     }
 }

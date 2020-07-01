@@ -38,11 +38,12 @@ public class AdminSearchController {
     @Autowired
     private TypeService typeService;
 
-    @PostMapping("/admin/news/search")
+    @GetMapping("/admin/news/search")
     public String newsSearch(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
                                          Pageable pageable, Model model, @RequestParam String search_news_a) {
 
         model.addAttribute("page", newsService.getNewsByTitle("%"+search_news_a+"%", pageable));
+        model.addAttribute("search", search_news_a);
         return "admin/news";
     }
 
@@ -81,11 +82,12 @@ public class AdminSearchController {
     }
 
 
-    @PostMapping("/admin/types/search")
+    @GetMapping("/admin/types/search")
     public String typesSearch(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
                                       Pageable pageable, Model model,
                               @RequestParam("type") String type) {
         model.addAttribute("page",typeService.listType(pageable, type));
+        model.addAttribute("search",type);
         return "admin/types";
     }
 }

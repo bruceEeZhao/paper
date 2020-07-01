@@ -25,7 +25,7 @@
             <p th:text="${message}">操作成功</p>
         </div>
 
-        <form action="#" method="post" class="ui form" th:action="${purpose == null} ? @{/admin/purpose/edit} : @{/admin/purpose/edit{id}(id = ${purpose.id})}">
+        <form action="#" method="post" class="ui form" th:action="@{/admin/purpose/edit}">
 
             <div class="ui header">
                 <p>期刊宗旨</p>
@@ -54,7 +54,7 @@
 
         <br>
 
-        <form action="#" method="post" class="ui form" th:action="${about == null} ? @{/admin/aboutus/edit} : @{/admin/aboutus/edit{id}(id = ${about.id})}">
+        <form action="#" method="post" class="ui form" th:action="@{/admin/aboutus/edit}">
 
             <div class="ui header">
                 <p>关于我们</p>

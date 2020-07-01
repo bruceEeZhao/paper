@@ -84,3 +84,10 @@
     max-width: 200em !important;
     margin: auto !important;
 }
+
+.m-content {
+  min-height: calc(100vh - 150px);
+}
+.m-footer {
+  height: 150px;
+}

@@ -33,11 +33,12 @@ public class SearchController {
 
     // 普通用户的搜索
 
-    @PostMapping("/news/search")
-    public String newsSearch_n(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
-                               @RequestParam String search_news_a, Pageable pageable, Model model) {
+    @GetMapping("/news/search")
+    public String newsSearch_n(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+                               @RequestParam String search_news_a,  Model model) {
 
         model.addAttribute("page", newsService.getNewsByTitlePublished("%"+search_news_a+"%", pageable));
+        model.addAttribute("search",search_news_a);
         return "news/newslist";
     }
 

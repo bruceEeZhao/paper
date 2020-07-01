@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,43 +21,33 @@ public class PurposeServiceImpl implements PurposeService {
 
 
     @Override
-    public List<Purpose> getPurpose() {
-        Pageable pageable = PageRequest.of(0,1);
-        return purposeRespository.findTop(pageable);
+    public Purpose getPurpose() {
+        List<Purpose> purposes = purposeRespository.findAll();
+        if (purposes.isEmpty()) {
+            return null;
+        } else {
+            return purposes.get(0);
+        }
     }
 
+    @Transactional
     @Override
-    public Purpose addPurpose(Purpose purpose) {
-        if (!getPurpose().isEmpty()) {
-            throw new NotFoundException("已经存在宗旨，不能添加多个");
-        }
-
+    public Purpose updatePurpose(Purpose purpose) {
+        purposeRespository.deleteAll();
         return purposeRespository.save(purpose);
     }
 
     @Override
-    public Purpose editPurpose(Long id, Purpose purpose) {
-        Purpose j = purposeRespository.findById(id).orElse(null);
-
-        if (j == null) {
-            throw new NotFoundException("不存在该类型");
-        }
-        BeanUtils.copyProperties(purpose, j);
-
-        return purposeRespository.save(j);
-    }
-
-    @Override
     public Purpose getAndConvert() {
-        List<Purpose> purpose = getPurpose();
+        Purpose purpose = getPurpose();
 
-        if (purpose.isEmpty()) {
+        if (purpose==null) {
             return null;
         }
 
 
         Purpose n = new Purpose();
-        BeanUtils.copyProperties(purpose.get(0), n);
+        BeanUtils.copyProperties(purpose, n);
         String content = n.getContent();
 
         n.setContent(MarkdownHandler.markdownToHtml(content));

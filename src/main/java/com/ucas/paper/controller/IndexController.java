@@ -40,17 +40,19 @@ public class IndexController {
     @Autowired
     private PurposeService purposeService;
 
+    @Autowired
+    private NewsReService newsReService;
+
     @GetMapping(value = {"/", "/index.html"})
     public String index(Model model) {
         Purpose purpose = purposeService.getAndConvert();
 
-        if (purpose != null) {
-            model.addAttribute("purpose", purpose);
-        } else {
-            model.addAttribute("purpose", null);
-        }
+
+        model.addAttribute("purpose", purpose);
+
         model.addAttribute("news",newsService.listPublishedNesw(5,0));
         model.addAttribute("specialists", specialistService.listSpecialist());
+        model.addAttribute("newr", newsReService.getNewRe());
         return "index";
     }
 
@@ -59,12 +61,8 @@ public class IndexController {
 
         Aboutus about = aboutusService.getAndConvert();
 
-        if (about!=null) {
-            model.addAttribute("about", about);
-        } else {
-            model.addAttribute("about", null);
-        }
-
+        model.addAttribute("about", about);
+        model.addAttribute("newr", newsReService.getNewRe());
         model.addAttribute("news",newsService.listPublishedNesw(5,0));
 
         return "aboutus";

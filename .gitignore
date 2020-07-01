@@ -1,3 +1,8 @@
+classes/artifacts/paper_jar/paper.jar
+log/timeFile/out.log
+src/main/resources/application-pro.yml
+
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -28,6 +28,8 @@ public interface JournalService {
 
     void deleteJournalById(Long id);
 
+    void deleteAllJournal();
+
     public XSSFWorkbook show();
 
     Long count();

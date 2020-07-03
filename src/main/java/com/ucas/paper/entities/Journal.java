@@ -33,7 +33,6 @@ public class Journal {
 
     private Integer snip;
 
-    private Integer ipp;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,7 +41,7 @@ public class Journal {
     public Journal() {
     }
 
-    public Journal(@NotBlank(message = "issn不能为空") String issn, Type subject, @NotBlank(message = "期刊名称不能为空") String name, String fms, Integer jcr, Integer sjr, Integer snip, Integer ipp) {
+    public Journal(@NotBlank(message = "issn不能为空") String issn, Type subject, @NotBlank(message = "期刊名称不能为空") String name, String fms, Integer jcr, Integer sjr, Integer snip) {
         this.issn = issn;
         this.subject = subject;
         this.name = name;
@@ -50,7 +49,6 @@ public class Journal {
         this.jcr = jcr;
         this.sjr = sjr;
         this.snip = snip;
-        this.ipp = ipp;
     }
 
     public Long getId() {
@@ -119,14 +117,6 @@ public class Journal {
         this.snip = snip;
     }
 
-    public Integer getIpp() {
-        return ipp;
-    }
-
-    public void setIpp(Integer ipp) {
-        this.ipp = ipp;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -143,22 +133,20 @@ public class Journal {
         this.updateTime = updateTime;
     }
 
+
     @Override
     public String toString() {
         return "Journal{" +
                 "id=" + id +
                 ", issn='" + issn + '\'' +
-                ", subject='" + subject + '\'' +
+                ", subject=" + subject.getName() +
                 ", name='" + name + '\'' +
                 ", fms='" + fms + '\'' +
                 ", jcr=" + jcr +
                 ", sjr=" + sjr +
                 ", snip=" + snip +
-                ", ipp=" + ipp +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';
     }
-
-
 }

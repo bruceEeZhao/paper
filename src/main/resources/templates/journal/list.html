@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Journal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
@@ -55,13 +55,15 @@
                     <div class="content m-inline-block">
                         显示条数
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="numb_show">
+                            <input type="hidden" name="num">
                             <i class="dropdown icon"></i>
                             <div class="default text" th:text="${numb_show == null} ? '20' : ${numb_show}">20</div>
                             <div class="menu" >
+                                <div class="item" th:data-value=10>10</div>
                                 <div class="item" th:data-value=20>20</div>
                                 <div class="item" th:data-value=30>30</div>
                                 <div class="item" th:data-value=40>40</div>
+                                <div class="item" th:data-value=-1>all</div>
                             </div>
                         </div>
                     </div>
@@ -80,25 +82,36 @@
         </div>
 
         <div id="table-container">
-            <table th:fragment="journal-list" class="ui celled structured table">
+            <table th:fragment="journal-list" class="ui fixed celled structured table">
                 <thead>
                 <tr class="center aligned">
-                    <th rowspan="2">序号</th>
-                    <th rowspan="2">ISSN</th>
-                    <th rowspan="2">学科</th>
-                    <th rowspan="2">期刊名称</th>
-                    <th colspan="5">评级</th>
+                    <th class="one wide" rowspan="2">序号</th>
+                    <th class="two wide" rowspan="2">ISSN</th>
+                    <th class="four wide" rowspan="2">学科</th>
+                    <th class="four wide" rowspan="2">期刊名称</th>
+                    <th class="five wide" colspan="4">评级</th>
                 </tr>
                 <tr>
                     <th >FMS等级</th>
                     <th >JCR排序</th>
                     <th >SJR排序</th>
                     <th >SNIP排序</th>
-                    <th >IPP排序</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="journal,iterStat : ${page.content}">
+                <tbody th:if="${page}">
+                <tr th:each="journal,iterStat : ${page.content}" >
+                    <td class="center aligned" th:text="${iterStat.count}+${page.number}*${numb_show}">1</td>
+                    <td class="center aligned" th:text="${journal.issn}">ISSN</td>
+                    <td th:text="${journal.subject!=null} ? ${journal.subject.name}">subject</td>
+                    <td style="word-break:break-all;" th:text="${journal.name}">Accounting Review</td>
+                    <td class="center aligned" th:text="${journal.fms}">4*</td>
+                    <td class="center aligned" th:text="${journal.jcr}">4</td>
+                    <td class="center aligned" th:text="${journal.sjr}">3</td>
+                    <td class="center aligned" th:text="${journal.snip}">3</td>
+                </tr>
+                </tbody>
+                <tbody th:if="${pagel}">
+                <tr th:each="journal,iterStat : ${pagel}" >
                     <td class="center aligned" th:text="${iterStat.count}">1</td>
                     <td class="center aligned" th:text="${journal.issn}">ISSN</td>
                     <td th:text="${journal.subject!=null} ? ${journal.subject.name}">subject</td>
@@ -107,33 +120,28 @@
                     <td class="center aligned" th:text="${journal.jcr}">4</td>
                     <td class="center aligned" th:text="${journal.sjr}">3</td>
                     <td class="center aligned" th:text="${journal.snip}">3</td>
-                    <td class="center aligned" th:text="${journal.ipp}">3</td>
                 </tr>
                 </tbody>
 
-                <tfoot>
+                <tfoot th:if="${page}">
                 <tr th:if="${search==null}">
-                    <th colspan="13">
+                    <th colspan="12">
                         <div class="ui right floated pagination menu" >
                             <a th:href="@{/journals(num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >首页</a>
                             <a th:href="${page.first == true} ? @{/journals(num=${numb_show == null} ? '20' : ${numb_show})} : @{/journals(page = ${page.number}-1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >上一页</a>
                             <a th:href="${page.last == true} ? @{/journals(page = ${page.totalPages}-1, num=${numb_show == null} ? '20' : ${numb_show})} : @{/journals(page = ${page.number}+1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >下一页</a>
                             <a th:href="@{/journals(page = ${page.totalPages}-1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >尾页</a>
                         </div>
-                        <a href="#" th:href="@{/journal/input}" class="ui mini left floated teal basic button">新增</a>
-                        <a href="#" th:href="@{/journal/upload}" class="ui mini left floated teal basic button">批量导入</a>
                     </th>
                 </tr>
                 <tr th:if="${search!=null}">
-                    <th colspan="13">
+                    <th colspan="12">
                         <div class="ui right floated pagination menu" >
                             <a th:href="@{/journals/search(page = 0, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >首页</a>
                             <a th:href="${page.first == true} ? @{/journals/search(page = 0, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})} : @{/journals/search(page = ${page.number}-1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >上一页</a>
                             <a th:href="${page.last == true} ? @{/journals/search(page = ${page.totalPages}-1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})} : @{/journals/search(page = ${page.number}+1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >下一页</a>
                             <a th:href="@{/journals/search(page = ${page.totalPages}-1, subject.id=${subid},issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >尾页</a>
                         </div>
-                        <a href="#" th:href="@{/journal/input}" class="ui mini left floated teal basic button">新增</a>
-                        <a href="#" th:href="@{/journal/upload}" class="ui mini left floated teal basic button">批量导入</a>
                     </th>
                 </tr>
                 </tfoot>

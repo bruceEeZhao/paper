@@ -8,25 +8,24 @@ import com.ucas.paper.entities.Type;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 @Service
 public class JournalServiceImpl implements JournalService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private JournalRespository journalRespository;
@@ -34,6 +33,10 @@ public class JournalServiceImpl implements JournalService {
     @Transactional
     @Override
     public Journal addJournal(Journal journal) {
+        if (journalRespository.findByIssn(journal.getIssn()) != null) {
+            //不能添加重复issn的数据
+            return null;
+        }
         journal.setCreateTime(new Date());
         journal.setUpdateTime(new Date());
         return journalRespository.save(journal);
@@ -59,18 +62,30 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<Journal> listJournal() {
-        return journalRespository.findAll();
+        List<Journal> journals = journalRespository.findAllByQuery();
+        Collections.sort(journals, new EmpComparator());
+        return journals;
     }
 
     @Transactional
     @Override
     public Page<Journal> listJournal(Pageable pageable) {
-        return  journalRespository.findAllByQuery(pageable);
+//        Page<Journal> journals = journalRespository.findAllByQuery(pageable);
+//        List<Journal> journalList = new ArrayList<>(journals.getContent());
+        List<Journal> journalList= journalRespository.findAll();
+        EmpComparator e = new EmpComparator();
+        journalList.sort(e);
+
+        int start = (int)pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > journalList.size() ? journalList.size() : ( start + pageable.getPageSize());
+
+
+        return new PageImpl<Journal>(journalList.subList(start, end), pageable, journalList.size());
     }
 
     @Override
     public Page<Journal> listJournal(Pageable pageable, JournalSearch search) {
-        return journalRespository.findAll(new Specification<Journal>() {
+        List<Journal> journalList = journalRespository.findAll(new Specification<Journal>() {
             @Override
             public Predicate toPredicate(Root<Journal> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
@@ -83,11 +98,19 @@ public class JournalServiceImpl implements JournalService {
                 if (search.getSubjectId()!=null) {
                     predicates.add(criteriaBuilder.equal(root.<Long>get("subject").get("id"),search.getSubjectId()));
                 }
-                criteriaQuery.orderBy(criteriaBuilder.desc(root.get("fms")));
+
                 criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
                 return null;
             }
-        },pageable);
+        });
+
+        EmpComparator e = new EmpComparator();
+        journalList.sort(e);
+
+        int start = (int)pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > journalList.size() ? journalList.size() : ( start + pageable.getPageSize());
+
+        return new PageImpl<Journal>(journalList.subList(start, end), pageable, journalList.size());
     }
 
     @Transactional
@@ -109,6 +132,11 @@ public class JournalServiceImpl implements JournalService {
         journalRespository.deleteById(id);
     }
 
+    @Transactional
+    @Override
+    public void deleteAllJournal() {
+        journalRespository.deleteAll();
+    }
 
     /**
      *     private Long id;
@@ -136,7 +164,6 @@ public class JournalServiceImpl implements JournalService {
         titleRow.createCell(5).setCellValue("jcr");
         titleRow.createCell(6).setCellValue("sjr");
         titleRow.createCell(7).setCellValue("snip");
-        titleRow.createCell(8).setCellValue("ipp");
         int cell = 1;
         for (Journal journal : list) {
             Row row = sheet.createRow(cell);//从第二行开始保存数据
@@ -148,7 +175,6 @@ public class JournalServiceImpl implements JournalService {
             row.createCell(5).setCellValue(journal.getJcr());
             row.createCell(6).setCellValue(journal.getSjr());
             row.createCell(7).setCellValue(journal.getSnip());
-            row.createCell(8).setCellValue(journal.getIpp());
 
             cell++;
         }
@@ -160,4 +186,7 @@ public class JournalServiceImpl implements JournalService {
     public Long count() {
         return journalRespository.count();
     }
+
+
 }
+

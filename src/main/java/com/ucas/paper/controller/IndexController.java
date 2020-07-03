@@ -51,7 +51,6 @@ public class IndexController {
         model.addAttribute("purpose", purpose);
 
         model.addAttribute("news",newsService.listPublishedNesw(5,0));
-        model.addAttribute("specialists", specialistService.listSpecialist());
         model.addAttribute("newr", newsReService.getNewRe());
         return "index";
     }

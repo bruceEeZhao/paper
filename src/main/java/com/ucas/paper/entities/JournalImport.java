@@ -25,8 +25,6 @@ public class JournalImport {
     @Excel(name = "snip", orderNum = "6")
     private Integer snip;
 
-    @Excel(name = "ipp", orderNum = "7")
-    private Integer ipp;
 
     public JournalImport() {
     }
@@ -87,14 +85,6 @@ public class JournalImport {
         this.snip = snip;
     }
 
-    public Integer getIpp() {
-        return ipp;
-    }
-
-    public void setIpp(Integer ipp) {
-        this.ipp = ipp;
-    }
-
     @Override
     public String toString() {
         return "JournalImport{" +
@@ -105,7 +95,6 @@ public class JournalImport {
                 ", jcr=" + jcr +
                 ", sjr=" + sjr +
                 ", snip=" + snip +
-                ", ipp=" + ipp +
                 '}';
     }
 }

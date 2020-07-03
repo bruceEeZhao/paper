@@ -3,6 +3,7 @@ package com.ucas.paper.controller.admin;
 import com.ucas.paper.dao.JournalRespository;
 import com.ucas.paper.dao.NewsRespository;
 import com.ucas.paper.dao.SpecialistResponsitory;
+import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.JournalSearch;
 import com.ucas.paper.service.JournalService;
 import com.ucas.paper.service.NewsService;
@@ -20,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class AdminSearchController {
@@ -53,18 +56,21 @@ public class AdminSearchController {
                                @RequestParam("subject.id") Long subid,
                                @RequestParam("issn") String issn,
                                @RequestParam("name") String name,
-                               @RequestParam(value = "numb_show", defaultValue = "20") Integer numb_show) {
+                               @RequestParam(value = "num", defaultValue = "20") Integer numb_show) {
         try {
             if (page==null || page<0) {
                 page = 0;
             }
 
-            JournalSearch search = new JournalSearch(subid, issn.trim(), name.trim());
-            Sort order = Sort.by(Sort.Direction.DESC, "fms");
-            pageable = PageRequest.of(page, numb_show, order);
+            if (numb_show>0) {
+                JournalSearch search = new JournalSearch(subid, issn.trim(), name.trim());
+                pageable = PageRequest.of(page, numb_show);
+                model.addAttribute("page",journalService.listJournal(pageable, search));
+            } else {
+                model.addAttribute("pagel", journalService.listJournal());
+            }
 
             model.addAttribute("subjects", typeService.listType());
-            model.addAttribute("page",journalService.listJournal(pageable, search));
             model.addAttribute("numb_show", numb_show);
             model.addAttribute("subid",subid);
             model.addAttribute("issn", issn);

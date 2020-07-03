@@ -170,6 +170,16 @@ public class AdminJournalController {
 
     }
 
+    /**
+     * 清空数据
+     * @return
+     */
+    @GetMapping("journal/delall")
+    public String journalDelAll() {
+        journalService.deleteAllJournal();
+        return "redirect:/admin/journals";
+    }
+
 
     @GetMapping("journal/upload")
     public String journalLoad() {
@@ -226,20 +236,24 @@ public class AdminJournalController {
         for (Type type :
                 types) {
             if (type.getName().equals(j.getSubject())) {
+                //已经存在该type
                 flag=true;
                 t.setId(type.getId());
                 t.setName(type.getName());
             }
         }
-
-        if (flag) {
-            Journal journal = new Journal(j.getIssn(),t,
-                    j.getName(), j.getFms(), j.getJcr(),
-                    j.getSjr(), j.getSnip(), j.getIpp());
-
-            return journal;
+        //不存在该type，创建
+        if (!flag) {
+            t.setName(j.getSubject());
+            if (null == typeService.addType(t)) {
+                return null;
+            }
         }
-        return null;
+
+       return new Journal(j.getIssn(),t,
+                j.getName(), j.getFms(), j.getJcr(),
+                j.getSjr(), j.getSnip());
+
     }
 
 }

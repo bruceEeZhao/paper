@@ -7,10 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface JournalRespository extends JpaRepository<Journal, Long>, JpaSpecificationExecutor<Journal> {
     Journal findByName(String name);
     Journal findByIssn(String issn);
 
     @Query("select b from Journal b order by b.subject.name desc, b.fms desc, b.name desc")
     Page<Journal> findAllByQuery(Pageable pageable);
+
+    @Query("select b from Journal b order by b.subject.name desc, b.fms desc, b.name desc")
+    List<Journal> findAllByQuery();
 }

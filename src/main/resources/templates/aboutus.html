@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>aboutus</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../static/css/paper.css" th:href="@{/css/paper.css}">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
 </head>
 <body>
 
@@ -21,7 +21,7 @@
             <!-- left side -->
             <div class="eleven wide column">
                 <div class="ui top attached segment">
-                    <div class="ui header">关于我们</div>
+                    <div class="ui header" th:text="${about == null}?'':${about.title}">关于我们</div>
                     <p class="text" th:utext="${about == null}?'':${about.content}">
                         我们是是方法是对方是的范德萨范德萨范德萨山东矿机哈萨克见好就收吧付
                     </p>
@@ -41,7 +41,7 @@
 </div>
 
 
-<footer th:insert="_fragments :: footer" class="m-footer"></footer>
+<footer th:insert="_fragments :: footer"></footer>
 
 <script>
     var _paq = window._paq || [];

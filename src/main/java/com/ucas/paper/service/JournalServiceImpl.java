@@ -4,7 +4,7 @@ import com.ucas.paper.NotFoundException;
 import com.ucas.paper.dao.JournalRespository;
 import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.JournalSearch;
-import com.ucas.paper.entities.Type;
+import com.ucas.paper.handler.JournalComparator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -62,8 +61,8 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<Journal> listJournal() {
-        List<Journal> journals = journalRespository.findAllByQuery();
-        Collections.sort(journals, new EmpComparator());
+        List<Journal> journals = journalRespository.findAll();
+        Collections.sort(journals, new JournalComparator());
         return journals;
     }
 
@@ -73,7 +72,7 @@ public class JournalServiceImpl implements JournalService {
 //        Page<Journal> journals = journalRespository.findAllByQuery(pageable);
 //        List<Journal> journalList = new ArrayList<>(journals.getContent());
         List<Journal> journalList= journalRespository.findAll();
-        EmpComparator e = new EmpComparator();
+        JournalComparator e = new JournalComparator();
         journalList.sort(e);
 
         int start = (int)pageable.getOffset();
@@ -104,7 +103,7 @@ public class JournalServiceImpl implements JournalService {
             }
         });
 
-        EmpComparator e = new EmpComparator();
+        JournalComparator e = new JournalComparator();
         journalList.sort(e);
 
         int start = (int)pageable.getOffset();
@@ -121,8 +120,10 @@ public class JournalServiceImpl implements JournalService {
         if (j == null) {
             throw new NotFoundException("不存在该类型");
         }
+        Date date = j.getCreateTime();
         BeanUtils.copyProperties(journal, j);
         j.setUpdateTime(new Date());
+        j.setCreateTime(date);
         return journalRespository.save(j);
     }
 

@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
     <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
-    <link rel="stylesheet" href="../../static/lib/prism/prism.css">
+    <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
 
     <script src="../static/lib/prism/prism.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
 </head>
 <body class="">
 
 <!-- 导航 -->
-<nav th:fragment="navigation(n)" class="ui inverted attached segment m-padded-tb-mini">
+<nav th:fragment="navigation(n)" class="ui darkblue inverted attached segment m-padded-tb-mini " >
     <div class="ui container">
         <div class="ui inverted secondary menu">
-            <img class="ui image" width="80" height="40" src="../static/images/logo.jpeg" th:src="@{/images/logo.jpeg}">
+            <img class="ui image" width="80" height="40" src="../static/images/logo.jpeg" th:src="@{/images/logo.png}">
             <a href="#" th:href="@{/}" class="item" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>首页</a>
             <a href="#" th:href="@{/journals}" class="item" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i>国际期刊</a>
+            <a href="#" th:href="@{/journals_cn}" class="item" th:classappend="${n==6} ? 'active'"><i class="idea icon"></i>中文期刊</a>
             <a href="#" th:href="@{/news}" class="item" th:classappend="${n==3} ? 'active'"><i class="idea icon"></i>新闻</a>
 <!--            <a href="#" th:href="@{/admin/statistic}" class="item" th:classappend="${n==4} ? 'active'"><i class="list alternate outline icon"></i>网站统计</a>-->
             <a href="#" th:href="@{/aboutus}" class="item" th:classappend="${n==5} ? 'active'"><i class="info icon"></i>关于我们</a>
@@ -40,27 +41,33 @@
 <div th:fragment="news" class="ui attached segment">
 
 
-    <div class="ui items" th:if="${newr != null}">
-        <div class="item">
-            <img src="https://picsum.photos/200/300" th:src="@{${newr.pic}}" width="250px" height="130px">
-        </div>
-        <div class="item">
-            <div class="content">
-                <div class="header">
-                    <a href="#" th:href="@{/news/{id}(id=${newr.nw.id})}" target="_blank" th:text="${newr.nw.title}"><i class="angle right icon"></i>中国商学院</a>
-                </div>
-                <div class="meta">
-                    <p  th:text="${#dates.format(newr.nw.updateTime,'yyyy-MM-dd')}"><i class="calendar icon"></i>商业和管理研究经费</p>
-                </div>
-            </div>
-        </div>
+    <div  th:if="${newr != null}">
+        <a th:href="@{/news/{id}(id=${newr.nw.id})}" >
+            <img src="https://picsum.photos/200/300" th:src="@{${newr.pic}}" width="300px" height="200px">
+        </a>
+<!--        <div class="item">-->
+<!--            <div class="content">-->
+<!--                <div class="header">-->
+<!--                    <a href="#" th:href="@{/news/{id}(id=${newr.nw.id})}" target="_blank" th:text="${newr.nw.title}"><i class="angle right icon"></i>中国商学院</a>-->
+<!--                </div>-->
+<!--                <div class="meta">-->
+<!--                    <p  th:text="${#dates.format(newr.nw.updateTime,'yyyy-MM-dd')}"><i class="calendar icon"></i>商业和管理研究经费</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
+    <br>
     <br>
 
     <!-- news head -->
     <div class="ui grid">
-        <div class="column">
-            <h3 class="ui header item">焦点新闻</h3>
+
+        <div class="twelve wide column">
+            <h3 class="ui left aligned header item">焦点新闻</h3>
+        </div>
+
+        <div class="four wide column">
+            <a  th:href="@{/news}">更多</a>
         </div>
     </div>
 
@@ -82,28 +89,31 @@
 
 </div>
 
-<footer th:fragment="footer" class="ui inverted vertical segment">
+<footer th:fragment="footer" class="ui darkblue inverted vertical segment m-footer">
     <div class="ui container">
         <div class="ui inverted divided grid">
             <div class="three wide column">
-                <img src="../static/images/fms_2.png" th:src="@{/images/fms_2.png}" class="ui rounded image" style="width:120px">
+                <img src="../static/images/fms_2.png" th:src="@{/images/fms_2.png}" class="ui rounded image" style="width:100px">
             </div>
 
             <div class="five wide column">
-                <img src="../static/images/logo_word.png" th:src="@{/images/logo_word.png}" class="ui rounded image" style="width:190px">
+                <img src="../static/images/logo_word.png" th:src="@{/images/logo_word.png}" class="ui rounded image" style="width:200px;height:100px">
             </div>
 
             <div class="seven wide column">
 
                 <div class="item">
                     <div class="content">
-                        <a class="header">联系我们</a>
-                        <div class="meta">
-                            <span></span>
-                        </div>
+<!--                        <a class="header">联系我们</a>-->
+<!--                        <div class="meta">-->
+<!--                            <span></span>-->
+<!--                        </div>-->
                         <div class="description">
-                            <p>京ICP备12038169号-2<br>
-                                <img th:src="@{/images/jing.png}">京公网安备 11010802010035 号<br>联系我们 © FMS-Journal  (联系我们的邮箱为fmsjournal@163.com)</p>
+                            <p>版权所有©FMS-journal<br>
+                            京ICP备XXXXXXX号<br>
+                                <img th:src="@{/images/jing.png}">京公网安备XXXXXXXXX号<br>
+                            邮箱：fmsjournal@163.com
+                            </p>
                         </div>
                     </div>
                 </div>

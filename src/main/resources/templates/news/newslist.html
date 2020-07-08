@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>news</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
     <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
@@ -11,7 +11,7 @@
 
     <script src="../../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
 </head>
 <body>
 
@@ -19,32 +19,30 @@
 <nav th:insert="_fragments :: navigation(3)"></nav>
 
 
-<div class="m-container m-padded-tb-large language-css animate__animated animate__fadeIn">
+<div class="m-container m-padded-tb-large language-css ">
     <div class="ui container">
 
-        <div class="ui segment">
-        <!-- 搜索 -->
-        <form name="search"  method="get" action="#" th:action="@{/news/search}" target="_blank">
-            <div class="ui inverted category  search">
-                <div class="ui icon input">
-                    <input name="search_news_a" class="prompt" type="text" th:placeholder="${search==null}?'Search animals...':${search}">
-                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
-                </div>
-                <div class="results"></div>
-            </div>
-        </form>
-        </div>
-
-        <!--    提示消息    -->
+                <!--    提示消息    -->
         <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
             <i class="close icon"></i>
             <div class="header">提示：</div>
             <p th:text="${message}">操作成功</p>
         </div>
 
-        <div class="ui middle aligned grid" >
+        <div class="ui grid" >
             <!-- left side -->
             <div class="eleven wide column" >
+
+                <!-- 搜索 -->
+                <form name="search"  method="get" action="#" th:action="@{/news/search}" target="_blank">
+                    <div class="ui inverted category  search">
+                        <div class="ui icon input">
+                            <input name="search_news_a" class="prompt" type="text" th:placeholder="${search==null}?'输入主题词':${search}">
+                            <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                        </div>
+                    </div>
+                </form>
+
                 <div th:each="newsi, iterStat : ${page.content}">
                 <div class="ui container m-padded-tb">
                     <a th:href="@{/news/{id}(id=${newsi.id})}" class="item" th:text="${newsi.title}">

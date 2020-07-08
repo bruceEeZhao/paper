@@ -9,12 +9,23 @@ public class Aboutus {
     @Id
     @GeneratedValue
     private Long id;
+
+    private String title;
+
     @NotBlank(message = "内容不能为空")
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private String content;
 
     public Aboutus() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long getId() {
@@ -37,6 +48,7 @@ public class Aboutus {
     public String toString() {
         return "Aboutus{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

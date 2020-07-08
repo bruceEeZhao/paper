@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Journal</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
     <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
 
 </head>
@@ -18,6 +18,10 @@
 
 <div class="m-container-big m-padded-tb-big">
     <div class="ui container">
+
+        <div th:insert="admin/_form :: sidebar(1)"></div>
+
+
         <form action="#" method="get" th:action="@{/admin/journals/search}" class="ui secondary segment form">
             <input type="hidden" name="page">
 
@@ -144,7 +148,7 @@
                         </div>
                         <a href="#" th:href="@{/admin/journal/input}" class="ui mini left floated teal basic button">新增</a>
                         <a href="#" th:href="@{/admin/journal/upload}" class="ui mini left floated teal basic button">批量导入</a>
-                        <a th:href="@{/download}" class="ui mini left floated teal basic button">批量下载</a>
+                        <a th:href="@{/admin/download}" class="ui mini left floated teal basic button">批量下载</a>
                         <a href="#" th:href="@{/admin/journal/delall}" class="ui mini left floated teal basic button">清空数据</a>
                     </th>
                 </tr>
@@ -158,7 +162,7 @@
                         </div>
                         <a href="#" th:href="@{/admin/journal/input}" class="ui mini left floated teal basic button">新增</a>
                         <a href="#" th:href="@{/admin/journal/upload}" class="ui mini left floated teal basic button">批量导入</a>
-                        <a th:href="@{/download}" class="ui mini left floated teal basic button">批量下载</a>
+                        <a th:href="@{/admin/download}" class="ui mini left floated teal basic button">批量下载</a>
                         <a href="#" th:href="@{/admin/journal/delall}" class="ui mini left floated teal basic button">清空数据</a>
                     </th>
                 </tr>

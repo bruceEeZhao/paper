@@ -11,12 +11,23 @@ public class Purpose {
     @Id
     @GeneratedValue
     private Long id;
+
+    private String title;
+
     @NotBlank(message = "内容不能为空")
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private String content;
 
     public Purpose() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long getId() {
@@ -39,6 +50,7 @@ public class Purpose {
     public String toString() {
         return "Purpose{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

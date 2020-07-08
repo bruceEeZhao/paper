@@ -39,7 +39,8 @@ public class NewsController {
     @GetMapping("/news/{id}")
     public String newsread(@PathVariable("id") Long id,
                            Model model) {
-        model.addAttribute("news", newsService.getAndConvert(id));
+        model.addAttribute("news", newsService.listPublishedNesw(5,0));
+        model.addAttribute("news_read", newsService.getAndConvert(id));
         model.addAttribute("newr", newsReService.getNewRe());
         return "news/newsread";
     }

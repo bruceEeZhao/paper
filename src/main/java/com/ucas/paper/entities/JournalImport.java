@@ -2,15 +2,20 @@ package com.ucas.paper.entities;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 
+import javax.validation.constraints.NotNull;
+
 public class JournalImport {
 
     @Excel(name = "issn", orderNum = "0")
+    @NotNull
     private String issn;
 
     @Excel(name = "学科", orderNum = "1")
+    @NotNull
     private String subject;
 
     @Excel(name = "期刊名称", orderNum = "2")
+    @NotNull
     private String name;  //期刊名称
 
     @Excel(name = "fms", orderNum = "3")

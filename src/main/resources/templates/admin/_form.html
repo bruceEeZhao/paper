@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../static/css/paper.css" th:href="@{/css/paper.css}">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
 </head>
 <body>
 
 <!-- 导航 -->
-<nav th:fragment="navigation(n)" class="ui inverted attached segment m-padded-tb-mini">
+<nav th:fragment="navigation(n)" class="ui darkblue inverted attached segment m-padded-tb-mini">
     <div class="ui container">
         <div class="ui inverted secondary menu">
             <a href="#" th:href="@{/admin/dashboard}" class="ui teal header item">后台管理</a>
@@ -37,6 +37,25 @@
         </div>
     </div>
 </nav>
+
+<div th:fragment="sidebar(n)" class="ui visible inverted left vertical  sidebar labeled icon menu">
+    <a class="item" th:classappend="${n==1} ? 'active'" th:href="@{/admin/journals}">
+        <i class="globe icon"></i>
+        国际期刊
+    </a>
+    <a class="item" th:classappend="${n==2} ? 'active'" th:href="@{/admin/journals_cn}">
+        <i class="language icon"></i>
+        中文期刊
+    </a>
+    <a class="item" th:classappend="${n==3} ? 'active'" th:href="@{/admin/journals_pdf}">
+        <i class="upload icon"></i>
+        国际期刊pdf
+    </a>
+    <a class="item" th:classappend="${n==4} ? 'active'" th:href="@{/admin/journals_cn_pdf}">
+        <i class="upload icon"></i>
+        中文期刊pdf
+    </a>
+</div>
 
 
     <script th:fragment="script" type="text/javascript">

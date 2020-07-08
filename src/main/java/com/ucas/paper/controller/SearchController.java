@@ -1,9 +1,8 @@
 package com.ucas.paper.controller;
 
+import com.ucas.paper.entities.JournalCNSearch;
 import com.ucas.paper.entities.JournalSearch;
-import com.ucas.paper.service.JournalService;
-import com.ucas.paper.service.NewsService;
-import com.ucas.paper.service.TypeService;
+import com.ucas.paper.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +30,21 @@ public class SearchController {
     @Autowired
     private JournalService journalService;
 
+    @Autowired
+    private JournalCNService journalCNService;
+
+    @Autowired
+    private NewsReService newsReService;
+
     // 普通用户的搜索
 
     @GetMapping("/news/search")
     public String newsSearch_n(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
                                @RequestParam String search_news_a,  Model model) {
-
+        model.addAttribute("news",newsService.listPublishedNesw(5,0));
         model.addAttribute("page", newsService.getNewsByTitlePublished("%"+search_news_a+"%", pageable));
         model.addAttribute("search",search_news_a);
+        model.addAttribute("newr", newsReService.getNewRe());
         return "news/newslist";
     }
 
@@ -77,5 +83,39 @@ public class SearchController {
         }
 
         return "journal/list";
+    }
+
+    @GetMapping("/journals_cn/search")
+    public String journaSearch_cn(Pageable pageable, Model model,
+                                 Integer page,
+                                 @RequestParam("issn") String issn,
+                                 @RequestParam("name") String name,
+                                 @RequestParam(value = "num", defaultValue = "20") Integer numb_show) {
+        try {
+            if (page==null || page<0) {
+                page = 0;
+            }
+
+            if (numb_show>0) {
+                JournalCNSearch search = new JournalCNSearch(issn.trim(), name.trim());
+                pageable = PageRequest.of(page, numb_show);
+                model.addAttribute("page",journalCNService.listJournal(pageable, search));
+            } else {
+                model.addAttribute("pagel",journalCNService.listJournal());
+            }
+
+            model.addAttribute("numb_show", numb_show);
+            model.addAttribute("issn", issn);
+            model.addAttribute("name", name);
+
+            model.addAttribute("search",1);
+
+        } catch (Exception e) {
+            logger.error(e.toString());
+        } finally {
+
+        }
+
+        return "journal/list_cn";
     }
 }

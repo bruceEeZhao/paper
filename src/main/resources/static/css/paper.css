@@ -86,8 +86,8 @@
 }
 
 .m-content {
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh - 120px);
 }
 .m-footer {
-  height: 150px;
+  height: 120px;
 }

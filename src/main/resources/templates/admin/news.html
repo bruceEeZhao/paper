@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>news</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
     <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
@@ -11,7 +11,7 @@
 
     <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
 </head>
 <body>
 
@@ -24,7 +24,7 @@
         <form name="search"  method="get" action="#" th:action="@{/admin/news/search}" target="_blank">
             <div class="ui category search">
                 <div class="ui icon input">
-                    <input name="search_news_a" class="prompt" type="text" th:placeholder="${search==null}?'Search animals...':${search}">
+                    <input name="search_news_a" class="prompt" type="text" th:placeholder="${search==null}?'输入主题词':${search}">
                     <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                 </div>
                 <div class="results"></div>

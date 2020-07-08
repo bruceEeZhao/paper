@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>aboutus</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
     <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
     <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
 </head>
 <body>
@@ -27,14 +27,14 @@
 
         <form action="#" method="post" class="ui form" th:action="@{/admin/purpose/edit}">
 
-            <div class="ui header">
-                <p>期刊宗旨</p>
+            <div class="required field">
+                <input type="text" name="title" placeholder="期刊列表推荐宗旨" th:value="${purpose != null} ? ${purpose.title}">
             </div>
 
             <!--     markdown编辑器       -->
             <div class="required field">
                 <div id="md-content"  style="z-index: 1 !important">
-                    <textarea name="content" th:text="${purpose == null} ? '期刊宗旨' : ${purpose.content} " style="display:none;">[TOC]
+                    <textarea name="content" th:text="${purpose == null} ? '期刊列表推荐宗旨' : ${purpose.content} " style="display:none;">[TOC]
 #### Disabled options
 - TeX (Based on KaTeX);
 - Emoji;
@@ -56,8 +56,8 @@
 
         <form action="#" method="post" class="ui form" th:action="@{/admin/aboutus/edit}">
 
-            <div class="ui header">
-                <p>关于我们</p>
+            <div class="required field">
+                <input type="text" name="title" placeholder="关于我们" th:value="${about != null} ? ${about.title}">
             </div>
 
             <!--     markdown编辑器       -->

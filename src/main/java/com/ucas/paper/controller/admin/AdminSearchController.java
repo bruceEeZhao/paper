@@ -4,11 +4,9 @@ import com.ucas.paper.dao.JournalRespository;
 import com.ucas.paper.dao.NewsRespository;
 import com.ucas.paper.dao.SpecialistResponsitory;
 import com.ucas.paper.entities.Journal;
+import com.ucas.paper.entities.JournalCNSearch;
 import com.ucas.paper.entities.JournalSearch;
-import com.ucas.paper.service.JournalService;
-import com.ucas.paper.service.NewsService;
-import com.ucas.paper.service.SpecialistService;
-import com.ucas.paper.service.TypeService;
+import com.ucas.paper.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,9 @@ public class AdminSearchController {
 
     @Autowired
     private JournalService journalService;
+
+    @Autowired
+    private JournalCNService journalCNService;
 
     @Autowired
     private SpecialistService specialistService;
@@ -85,6 +86,41 @@ public class AdminSearchController {
         }
 
         return "admin/journalList";
+    }
+
+    @GetMapping("/admin/journals_cn/search")
+    public String journaSearch_cn(Pageable pageable, Model model,
+                               Integer page,
+                               @RequestParam("issn") String issn,
+                               @RequestParam("name") String name,
+                               @RequestParam(value = "num", defaultValue = "20") Integer numb_show) {
+        try {
+            if (page==null || page<0) {
+                page = 0;
+            }
+
+            if (numb_show>0) {
+                JournalCNSearch search = new JournalCNSearch(issn.trim(), name.trim());
+                pageable = PageRequest.of(page, numb_show);
+                model.addAttribute("page",journalCNService.listJournal(pageable, search));
+            } else {
+                model.addAttribute("pagel", journalCNService.listJournal());
+            }
+
+            model.addAttribute("subjects", typeService.listType());
+            model.addAttribute("numb_show", numb_show);
+            model.addAttribute("issn", issn);
+            model.addAttribute("name", name);
+
+            model.addAttribute("search",1);
+
+        } catch (Exception e) {
+            logger.error(e.toString());
+        } finally {
+
+        }
+
+        return "admin/journalList_cn";
     }
 
 

@@ -3,40 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>journal</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/webjars/Semantic-UI/2.4.1/semantic.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../static/css/paper.css" th:href="@{/css/paper.css}">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/webjars/Semantic-UI/2.4.1/semantic.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
+
 </head>
 <body>
 
+<div class="m-content">
 <!-- 导航 -->
 <nav th:insert="_fragments :: navigation(1)"></nav>
 
 <!-- 中间内容 -->
 <div class="m-container m-padded-tb-large">
     <div class="ui container">
+
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
         <div class="ui grid">
             <!-- left side -->
             <div class="eleven wide column">
                 <div class="ui top attached segment">
-                    <div class="ui one column grid">
-                        <div class="column">
-                            <img src="../static/images/JRG.png" th:src="@{/images/JRG.png}">
+                    <img src="../static/images/JRG.png" th:src="@{/images/JRG.png}" width="600px" height="250px">
+                </div>
+
+                <div class="ui attached secondary segment">
+                    <div class="ui grid">
+                        <div class="ten wide column">
+                            <h2 class="ui header item" th:text="${global==null}?'FMS Journal Rating Guide（国际期刊）':${global.alias}">FMS Journal Rating Guide（国际期刊）</h2>
+                        </div>
+                        <div class="six wide column">
+                            <div class="ui right aligned container">
+                            <a th:href="@{/download_pdf}" class="ui button red active">下载</a>
+                            <a th:href="@{/journals}" class="ui button red active">检索</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui attached secondary segment">
+                    <div class="ui grid">
+                        <div class="ten wide column">
+                            <h2 class="ui header item" th:text="${chinese==null}?'FMS管理科学高质量期刊（中文期刊）':${chinese.alias}">FMS管理科学高质量期刊（中文期刊）</h2>
+                        </div>
+                        <div class="six wide column">
+                            <div class="ui right aligned container">
+                                <a th:href="@{/download_cn_pdf}" class="ui button red active">下载</a>
+                                <a th:href="@{/journals_cn}" class="ui button red active">检索</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="ui attached secondary segment">
-                    <h2 class="ui header item">FMS管理科学期刊列表</h2>
-                    <div class="ui right aligned container">
-                        <a th:href="@{/download}" class="ui button red active">下载</a>
-                        <a th:href="@{/journals}" class="ui button red active">检索</a>
-                    </div>
-                </div>
-
                 <div class="ui bottom attached segment">
-                    <h1>期刊评级指南宗旨</h1>
+                    <h1 th:text="${purpose == null} ? '':${purpose.title}">期刊列表推荐宗旨</h1>
                     <p th:utext="${purpose == null} ? '':${purpose.content}">
                     </p>
                 </div>
@@ -49,11 +74,22 @@
         </div>
     </div>
 </div>
+</div>
+
+<footer th:insert="_fragments :: footer"></footer>
 
 <script type="text/javascript">
     $('.menu .item')
     .tab()
     ;
+
+    //消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
 
     var _paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */

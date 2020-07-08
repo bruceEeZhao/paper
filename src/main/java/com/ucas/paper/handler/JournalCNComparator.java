@@ -1,6 +1,6 @@
-package com.ucas.paper.service;
+package com.ucas.paper.handler;
 
-import com.ucas.paper.entities.Journal;
+import com.ucas.paper.entities.JournalCN;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,13 +9,11 @@ import java.util.Map;
 /*
  * 排序类
  */
-public class EmpComparator implements Comparator<Journal> {
+public class JournalCNComparator implements Comparator<JournalCN> {
 
     @Override
-    public int compare(Journal journal1, Journal journal2) {
+    public int compare(JournalCN journal1, JournalCN journal2) {
         int flag = 0;
-        //先按学科名称排序
-        flag = journal2.getSubject().getName().compareTo(journal1.getSubject().getName());
 
         //再按FMS等级排序（A+, A,B,C,D,other)
         if (0 == flag) {

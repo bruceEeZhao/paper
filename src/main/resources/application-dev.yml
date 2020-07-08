@@ -31,4 +31,6 @@ server:
 file:
   upload:
     path: /home/bruce/Desktop/paperphoto/
+    pdfpath: /home/bruce/Desktop/paperphoto/pdf/
   mappath: /imagesupload
+  pdfmap: /pdfupload

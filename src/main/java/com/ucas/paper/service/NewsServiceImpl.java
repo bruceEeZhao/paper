@@ -76,8 +76,10 @@ public class NewsServiceImpl implements NewsService{
         if (n==null) {
             throw new NotFoundException("不存在该记录");
         }
+        Date date=n.getCreateTime();
         BeanUtils.copyProperties(news, n);
         n.setUpdateTime(new Date());
+        n.setCreateTime(date);
 
         Integer len = 0;
         if (n.getContent().length() > 128) {

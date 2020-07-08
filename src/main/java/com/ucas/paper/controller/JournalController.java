@@ -2,6 +2,7 @@ package com.ucas.paper.controller;
 
 import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.Type;
+import com.ucas.paper.service.JournalCNService;
 import com.ucas.paper.service.JournalService;
 import com.ucas.paper.service.TypeService;
 import org.slf4j.Logger;
@@ -34,6 +35,9 @@ public class JournalController {
     private JournalService journalService;
 
     @Autowired
+    private JournalCNService journalCNService;
+
+    @Autowired
     private TypeService typeService;
 
     //返回journal列表
@@ -53,4 +57,19 @@ public class JournalController {
         return "journal/list";
     }
 
+    //返回journal列表
+    @GetMapping("/journals_cn")
+    public String journaLlist_cn(Pageable pageable, Model model,Integer page,
+                              @RequestParam(value = "num", defaultValue = "20") Integer num) {
+        if (page == null || page < 0){
+            page = 0;
+        }
+
+        Sort order = Sort.by(Sort.Direction.DESC, "fms");
+        pageable = PageRequest.of(page,num,order);
+
+        model.addAttribute("page",journalCNService.listJournal(pageable));
+        model.addAttribute("numb_show", num);
+        return "journal/list_cn";
+    }
 }

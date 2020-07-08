@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
+    <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
+    <link rel="stylesheet" href="../../static/lib/editor/css/editormd.css" th:href="@{/lib/editor/css/editormd.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
+    <script src="../../static/lib/editor/editormd.min.js" th:src="@{/lib/editor/editormd.min.js}"></script>
+
+</head>
+<body>
+
+<!-- 导航 -->
+<nav th:insert="_fragments :: navigation(6)"></nav>
+
+<div th:fragment="journallist" class="m-container-big m-padded-tb-big">
+    <div class="ui container">
+        <form action="#" method="get" th:action="@{/journals_cn/search}" class="ui secondary segment form">
+            <input type="hidden" name="page">
+
+            <!-- 搜索 -->
+            <div class="ui horizontal list">
+                <div class="item">
+                    <div class="content">
+                        <div class="ui input focus">
+                            <input type="text" name="issn" placeholder="ISSN">
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="content">
+                        <div class="ui input focus">
+                            <input type="text" name="name" placeholder="期刊名称">
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="content m-inline-block">
+                        显示条数
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="num">
+                            <i class="dropdown icon"></i>
+                            <div class="default text" th:text="${numb_show == null} ? '20' : ${numb_show}">20</div>
+                            <div class="menu" >
+                                <div class="item" th:data-value=10>10</div>
+                                <div class="item" th:data-value=20>20</div>
+                                <div class="item" th:data-value=30>30</div>
+                                <div class="item" th:data-value=40>40</div>
+                                <div class="item" th:data-value=-1>all</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <button type="submit" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+                </div>
+            </div>
+        </form>
+
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <div id="table-container">
+            <table th:fragment="journal-list" class="ui fixed celled structured table">
+                <thead>
+                <tr class="center aligned">
+                    <th class="one wide" rowspan="2">序号</th>
+                    <th class="three wide" rowspan="2">ISSN</th>
+                    <th class="five wide" rowspan="2">期刊名称</th>
+                    <th class="one wide" rowspan="2">FMS等级</th>
+                    <th class="six wide" rowspan="2">主办单位</th>
+                </tr>
+
+                </thead>
+                <tbody th:if="${page}">
+                <tr th:each="journal,iterStat : ${page.content}" >
+                    <td class="center aligned" th:text="${iterStat.count}+${page.number}*${numb_show}">1</td>
+                    <td class="center aligned" th:text="${journal.issn}">ISSN</td>
+                    <td style="word-break:break-all;" th:text="${journal.name}">Accounting Review</td>
+                    <td class="center aligned" th:text="${journal.fms}">4*</td>
+                    <td style="word-break:break-all;" class="center aligned" th:text="${journal.host}">4*</td>
+
+                </tr>
+                </tbody>
+                <tbody th:if="${pagel}">
+                <tr th:each="journal,iterStat : ${pagel}" >
+                    <td class="center aligned" th:text="${iterStat.count}">1</td>
+                    <td class="center aligned" th:text="${journal.issn}">ISSN</td>>
+                    <td th:text="${journal.name}">Accounting Review</td>
+                    <td class="center aligned" th:text="${journal.fms}">4*</td>
+                    <td style="word-break:break-all;" class="center aligned" th:text="${journal.host}">4*</td>
+
+                </tr>
+                </tbody>
+
+                <tfoot th:if="${page}">
+                <tr th:if="${search==null}">
+                    <th colspan="12">
+                        <div class="ui right floated pagination menu" >
+                            <a th:href="@{/journals_cn(num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >首页</a>
+                            <a th:href="${page.first == true} ? @{/journals_cn(num=${numb_show == null} ? '20' : ${numb_show})} : @{/journals_cn(page = ${page.number}-1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >上一页</a>
+                            <a th:href="${page.last == true} ? @{/journals_cn(page = ${page.totalPages}-1, num=${numb_show == null} ? '20' : ${numb_show})} : @{/journals_cn(page = ${page.number}+1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >下一页</a>
+                            <a th:href="@{/journals_cn(page = ${page.totalPages}-1, num=${numb_show == null} ? '20' : ${numb_show})}" class="mini item" >尾页</a>
+                        </div>
+                    </th>
+                </tr>
+                <tr th:if="${search!=null}">
+                    <th colspan="12">
+                        <div class="ui right floated pagination menu" >
+                            <a th:href="@{/journals_cn/search(page = 0, issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >首页</a>
+                            <a th:href="${page.first == true} ? @{/journals_cn/search(page = 0, issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})} : @{/journals_cn/search(page = ${page.number}-1, issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >上一页</a>
+                            <a th:href="${page.last == true} ? @{/journals_cn/search(page = ${page.totalPages}-1, issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})} : @{/journals_cn/search(page = ${page.number}+1, issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >下一页</a>
+                            <a th:href="@{/journals_cn/search(page = ${page.totalPages}-1, issn=${issn},name=${name}, num=${numb_show == null}?'20':${numb_show})}" class="mini item" >尾页</a>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- 默认首页显示期刊列表 -->
+
+    </div>
+</div>
+
+<script th:fragment="script" type="text/javascript">
+		$('.ui.dropdown').dropdown();
+
+		//消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
+
+
+
+var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//127.0.0.1:8081/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+	</script>
+
+</body>
+</html>

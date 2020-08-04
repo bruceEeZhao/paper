@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link th:href="@{/images/favicon.ico}" rel="shortcut icon" type="image/x-icon">
     <meta charset="UTF-8">
     <title>news</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
@@ -19,14 +20,14 @@
 <nav th:insert="_fragments :: navigation(3)"></nav>
 
 <!-- 中间内容 -->
-<div class="m-container m-padded-tb-large language-css ">
+<div class="m-container m-padded-tb-large ">
     <div class="ui container">
         <div class="ui grid">
             <!-- left side -->
             <div class="eleven wide column">
                 <h2 class="ui center aligned header" th:text="${news_read.title}">title</h2>
                 <br>
-                <div id="content" class="typo" th:utext="${news_read.content}">
+                <div id="content" class="typo language-css" th:utext="${news_read.content}">
 
 
                 </div>
@@ -52,13 +53,19 @@
     //<!--  下拉菜单激活  -->
 	$('.ui.dropdown').dropdown();
 
+	//indexSearch
+    function indexSearch() {
+        var form =  document.getElementById('index-search-form');
+        form.submit();
+    }
+
 
 	var _paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//127.0.0.1:8081/matomo/";
+    var u="//114.215.220.151:8081/matomo/";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];

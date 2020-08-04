@@ -15245,6 +15245,13 @@ a.ui.active.label:ActiveHover:before {
 /*-------------------
        Colors
 --------------------*/
+/*--- darkblue ---*/
+.ui.darkblue.labels .label,
+.ui.darkblue.label {
+  background-color: #263a4e !important;
+  border-color: #263a4e !important;
+  color: #FFFFFF !important;
+}
 
 /*--- Red ---*/
 
@@ -19053,7 +19060,7 @@ ol.ui.horizontal.list li:before,
 
 .ui.inverted.darkblue.segment {
   background-color: #263a4e !important;
-  color: #FFFFFF !important;
+
 }
 
 /* Violet */

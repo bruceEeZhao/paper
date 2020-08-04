@@ -2,6 +2,7 @@ package com.ucas.paper.handler;
 
 import com.ucas.paper.entities.Journal;
 
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,10 @@ public class JournalComparator implements Comparator<Journal> {
     public int compare(Journal journal1, Journal journal2) {
         int flag = 0;
         //先按学科名称排序
-        flag = journal2.getSubject().getName().compareTo(journal1.getSubject().getName());
+
+        Collator com = Collator.getInstance(java.util.Locale.CHINA);
+
+        flag = com.getCollationKey(journal1.getSubject().getName()).compareTo(com.getCollationKey(journal2.getSubject().getName()));
 
         //再按FMS等级排序（A+, A,B,C,D,other)
         if (0 == flag) {
@@ -38,7 +42,7 @@ public class JournalComparator implements Comparator<Journal> {
 
         //再按照期刊名称排序
         if (flag == 0) {
-            flag = journal2.getName().compareTo(journal1.getName());
+            flag = com.getCollationKey(journal1.getName()).compareTo(com.getCollationKey(journal2.getName()));
         }
 
         if (flag > 0) {

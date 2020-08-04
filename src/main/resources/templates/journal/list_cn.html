@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link th:href="@{/images/favicon.ico}" rel="shortcut icon" type="image/x-icon">
     <meta charset="UTF-8">
     <title>Journal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
@@ -68,34 +69,34 @@
         </div>
 
         <div id="table-container">
-            <table th:fragment="journal-list" class="ui fixed celled structured table">
+            <table th:fragment="journal-list" width="100%" class="ui celled structured table">
                 <thead>
                 <tr class="center aligned">
-                    <th class="one wide" rowspan="2">序号</th>
-                    <th class="three wide" rowspan="2">ISSN</th>
-                    <th class="five wide" rowspan="2">期刊名称</th>
-                    <th class="one wide" rowspan="2">FMS等级</th>
-                    <th class="six wide" rowspan="2">主办单位</th>
+                    <th rowspan="2">序号</th>
+                    <th rowspan="2">ISSN</th>
+                    <th rowspan="2">期刊名称</th>
+                    <th rowspan="2">FMS等级</th>
+                    <th rowspan="2">主办单位</th>
                 </tr>
 
                 </thead>
                 <tbody th:if="${page}">
                 <tr th:each="journal,iterStat : ${page.content}" >
-                    <td class="center aligned" th:text="${iterStat.count}+${page.number}*${numb_show}">1</td>
-                    <td class="center aligned" th:text="${journal.issn}">ISSN</td>
-                    <td style="word-break:break-all;" th:text="${journal.name}">Accounting Review</td>
-                    <td class="center aligned" th:text="${journal.fms}">4*</td>
-                    <td style="word-break:break-all;" class="center aligned" th:text="${journal.host}">4*</td>
+                    <td width="6%"  class="center aligned" th:text="${iterStat.count}+${page.number}*${numb_show}">1</td>
+                    <td width="10%" class="center aligned" th:text="${journal.issn}">ISSN</td>
+                    <td width="24%" style="word-break:break-all;" th:text="${journal.name}">Accounting Review</td>
+                    <td width="8%" class="center aligned" th:text="${journal.fms}">4*</td>
+                    <td width="52%" style="word-break:break-all;" class="left aligned" th:text="${journal.host}">4*</td>
 
                 </tr>
                 </tbody>
                 <tbody th:if="${pagel}">
                 <tr th:each="journal,iterStat : ${pagel}" >
-                    <td class="center aligned" th:text="${iterStat.count}">1</td>
-                    <td class="center aligned" th:text="${journal.issn}">ISSN</td>>
-                    <td th:text="${journal.name}">Accounting Review</td>
-                    <td class="center aligned" th:text="${journal.fms}">4*</td>
-                    <td style="word-break:break-all;" class="center aligned" th:text="${journal.host}">4*</td>
+                    <td width="6%"  class="center aligned" th:text="${iterStat.count}">1</td>
+                    <td width="10%" class="center aligned" th:text="${journal.issn}">ISSN</td>
+                    <td width="24%" style="word-break:break-all;" th:text="${journal.name}">Accounting Review</td>
+                    <td width="8%" class="center aligned" th:text="${journal.fms}">4*</td>
+                    <td width="52%" style="word-break:break-all;" class="left aligned" th:text="${journal.host}">4*</td>
 
                 </tr>
                 </tbody>
@@ -140,6 +141,11 @@
 		        .transition('fade');
 		});
 
+    //indexSearch
+    function indexSearch() {
+        var form =  document.getElementById('index-search-form');
+        form.submit();
+    }
 
 
 var _paq = window._paq || [];
@@ -147,7 +153,7 @@ var _paq = window._paq || [];
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//127.0.0.1:8081/matomo/";
+    var u="//114.215.220.151:8081/matomo/";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];

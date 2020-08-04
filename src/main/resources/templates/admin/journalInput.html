@@ -43,7 +43,7 @@
                         <div class="ui selection dropdown">
                             <input type="hidden" name="subject.id">
                             <i class="dropdown icon"></i>
-                            <div class="default text">学科</div>
+                            <div class="default text" th:text="${subject.name}"></div>
                             <div class="menu">
                                 <div class="item" th:each="subject : ${subjects}" th:data-value="${subject.id}" th:text="${subject.name}">Male</div>
                             </div>
@@ -75,10 +75,6 @@
                     <input type="text" name="snip" placeholder="SNIP" th:value="${journal != null}?${journal.snip}">
                 </div>
 
-                <div class="ui left labeled input">
-                    <div class="ui teal basic label">IPP</div>
-                    <input type="text" name="ipp" placeholder="IPP" th:value="${journal != null}?${journal.ipp}">
-                </div>
 
             </div>
 

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link th:href="@{/images/favicon.ico}" rel="shortcut icon" type="image/x-icon">
     <meta charset="UTF-8">
     <title>news</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../../static/css/paper.css" th:href="@{/css/paper.css}">
-    <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">
+<!--    <link rel="stylesheet" href="../../static/css/typo.css" th:href="@{/css/typo.css}">-->
     <link rel="stylesheet" href="../../static/css/animate.css" th:href="@{/css/animate.css}">
     <link rel="stylesheet" href="../../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
 
@@ -19,7 +20,7 @@
 <nav th:insert="_fragments :: navigation(3)"></nav>
 
 
-<div class="m-container m-padded-tb-large language-css ">
+<div class="m-container m-padded-tb-large language-css">
     <div class="ui container">
 
                 <!--    提示消息    -->
@@ -45,10 +46,12 @@
 
                 <div th:each="newsi, iterStat : ${page.content}">
                 <div class="ui container m-padded-tb">
-                    <a th:href="@{/news/{id}(id=${newsi.id})}" class="item" th:text="${newsi.title}">
-                        <div class="ui yellow circular label" th:text="${iterStat.count}">2</div>
-                        标题
+                    <h5 style="color:#4b749c">
+                    <a style="color:#4b749c" th:href="@{/news/{id}(id=${newsi.id})}" class="item" th:text="${newsi.title}">
+<!--                        <div class="ui yellow circular label" th:text="${iterStat.count}">2</div>-->
+<!--                        标题-->
                     </a>
+                    </h5>
                     <p class="m-text" th:text="|${newsi.description}....|">xxx</p>
                     <div class="item">
                         <i class="calendar icon"></i><span th:text="${#dates.format(newsi.updateTime,'yyyy-MM-dd')}">2017-09-01</span>
@@ -102,13 +105,19 @@
     //<!--  下拉菜单激活  -->
 	$('.ui.dropdown').dropdown();
 
+	//indexSearch
+    function indexSearch() {
+        var form =  document.getElementById('index-search-form');
+        form.submit();
+    }
+
 
 var _paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//127.0.0.1:8081/matomo/";
+    var u="//114.215.220.151:8081/matomo/";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];

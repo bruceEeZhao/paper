@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -71,7 +74,16 @@ public class TypeServiceImpl implements TypeService{
     @Transactional
     @Override
     public List<Type> listType() {
-        return typeRespository.findAll();
+        List<Type> list = typeRespository.findAll();
+        Collator com = Collator.getInstance(java.util.Locale.CHINA);
+
+        list.sort(new Comparator<Type>() {
+            @Override
+            public int compare(Type o1, Type o2) {
+                return com.getCollationKey(o1.getName()).compareTo(com.getCollationKey(o2.getName()));
+            }
+        });
+        return list;
     }
 
     @Transactional

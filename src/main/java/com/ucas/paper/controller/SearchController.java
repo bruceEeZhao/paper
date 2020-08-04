@@ -118,4 +118,15 @@ public class SearchController {
 
         return "journal/list_cn";
     }
+
+
+    @GetMapping("/index_search")
+    public String indexSearch(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+                              @RequestParam("indexSearch") String search_news_a, Model model) {
+        model.addAttribute("news",newsService.listPublishedNesw(5,0));
+        model.addAttribute("page", newsService.getNewsByTitlePublished("%"+search_news_a+"%", pageable));
+        model.addAttribute("search",search_news_a);
+        model.addAttribute("newr", newsReService.getNewRe());
+        return "news/newslist";
+    }
 }

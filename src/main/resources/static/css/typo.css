@@ -109,21 +109,17 @@ sub {
 }
 
 /* 让链接在 hover 状态下显示下划线 */
-a {
-  color: #1abc9c;
-}
+
 
 a:hover {
   text-decoration: underline;
 }
 
 .typo a {
-  border-bottom: 1px solid #1abc9c;
+  border-bottom: 1px solid ;
 }
 
 .typo a:hover {
-  border-bottom-color: #555;
-  color: #555;
   text-decoration: none;
 }
 
@@ -226,7 +222,6 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
   font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   font-weight: 100;
-  color: #000;
   line-height: 1.35;
 }
 

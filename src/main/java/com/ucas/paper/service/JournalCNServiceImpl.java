@@ -122,6 +122,7 @@ public class JournalCNServiceImpl implements JournalCNService {
         }
         Date date = j.getCreateTime();
         BeanUtils.copyProperties(journal, j);
+        j.setId(id);
         j.setUpdateTime(new Date());
         j.setCreateTime(date);
         return journalRespository.save(j);

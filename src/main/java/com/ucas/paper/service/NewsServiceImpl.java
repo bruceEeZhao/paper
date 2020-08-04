@@ -4,6 +4,8 @@ import com.ucas.paper.NotFoundException;
 import com.ucas.paper.dao.NewsRespository;
 import com.ucas.paper.entities.News;
 import com.ucas.paper.handler.MarkdownHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,8 @@ import java.util.List;
 @Service
 public class NewsServiceImpl implements NewsService{
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private NewsRespository newsRespository;
 
@@ -28,13 +32,8 @@ public class NewsServiceImpl implements NewsService{
         news.setCreateTime(new Date());
         news.setUpdateTime(new Date());
 
-        Integer len = 0;
-        if (news.getContent().length() > 128) {
-            len = 128;
-        } else {
-            len = news.getContent().length() - 1;
-        }
-        news.setDescription(news.getContent().substring(0,len));
+
+        news.setDescription(geDes(news.getContent()));
         return newsRespository.save(news);
     }
 
@@ -80,14 +79,9 @@ public class NewsServiceImpl implements NewsService{
         BeanUtils.copyProperties(news, n);
         n.setUpdateTime(new Date());
         n.setCreateTime(date);
+        n.setId(id);
 
-        Integer len = 0;
-        if (n.getContent().length() > 128) {
-            len = 128;
-        } else {
-            len = n.getContent().length() - 1;
-        }
-        n.setDescription(n.getContent().substring(0,len));
+        n.setDescription(geDes(news.getContent()));
         return newsRespository.save(n);
     }
 
@@ -124,5 +118,35 @@ public class NewsServiceImpl implements NewsService{
     @Override
     public Long count() {
         return newsRespository.count();
+    }
+
+    /**
+     * 由新闻内容生成 新闻简介
+     * @param content
+     * @return
+     */
+    private String geDes(String content) {
+        if (content.trim().length() == 0) {
+            return "";
+        }
+
+        String htmlcontent = MarkdownHandler.markdownToHtml(content);
+
+        String regex= "<[^>]*>";
+        String des = htmlcontent.replaceAll(regex, "");
+
+        regex="&emsp;";
+        des = des.replaceAll(regex, "");
+
+        logger.info(des);
+
+        Integer len = 0;
+        if (des.length() > 128) {
+            len = 128;
+        } else {
+            len = des.length() - 1;
+        }
+
+        return des.substring(0,len);
     }
 }

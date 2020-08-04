@@ -81,6 +81,7 @@ public class AdminJournalController {
         }
         model.addAttribute("subjects", typeService.listType());
         model.addAttribute("journal",journalService.getJournal(id));
+        model.addAttribute("subject", journalService.getJournal(id).getSubject());
         return "admin/journalInput";
     }
 
@@ -98,14 +99,18 @@ public class AdminJournalController {
                 result.rejectValue("issn", "nameError", "不允许重复的issn");
             }
 
+            if (journal.getSubject() == null) {
+                result.rejectValue("type", "nameError", "未选择学科");
+            }
+
             List<Type> tmp = typeService.listType();
             if(tmp == null || tmp.isEmpty()) {
                 result.rejectValue("type", "nameError", "请先添加学科");
             }
         } else {
             //修改
-            if (journal1 == null) {
-                result.rejectValue("issn", "nameError", "数据库中不存在该记录");
+            if (journal1 != null && !journal1.getId().equals(id)) {
+                result.rejectValue("issn", "nameError", "不允许重复的issn");
             }
         }
 
@@ -128,7 +133,7 @@ public class AdminJournalController {
             }
         }
 
-        journal.setSubject(typeService.getType(journal.getSubject().getId()));
+        journal.setSubject(journalService.getJournal(id).getSubject());
 
         Journal j = null;
         if (id == null) {
@@ -294,6 +299,7 @@ public class AdminJournalController {
                                    Model model,
                                    RedirectAttributes attributes) {
         model.addAttribute("journal",journalCNService.getJournal(id));
+
         return "admin/journalInput_cn";
     }
 
@@ -312,8 +318,8 @@ public class AdminJournalController {
             }
         } else {
             //修改
-            if (journal1 == null) {
-                result.rejectValue("issn", "nameError", "数据库中不存在该记录");
+            if (journal1 != null && !journal1.getId().equals(id)) {
+                result.rejectValue("issn", "nameError", "不允许重复的issn");
             }
         }
 

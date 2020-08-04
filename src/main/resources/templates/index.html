@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link th:href="@{/images/favicon.ico}" rel="shortcut icon" type="image/x-icon">
     <meta charset="UTF-8">
-    <title>journal</title>
+    <title>Index</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
     <link rel="stylesheet" href="../static/css/paper.css" th:href="@{/css/paper.css}">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
@@ -30,18 +31,18 @@
             <!-- left side -->
             <div class="eleven wide column">
                 <div class="ui top attached segment">
-                    <img src="../static/images/JRG.png" th:src="@{/images/JRG.png}" width="600px" height="250px">
+                    <img src="../static/images/JRG.png" th:src="@{/images/JRG.png}" width="420px" height="180px">
                 </div>
 
                 <div class="ui attached secondary segment">
                     <div class="ui grid">
                         <div class="ten wide column">
-                            <h2 class="ui header item" th:text="${global==null}?'FMS Journal Rating Guide（国际期刊）':${global.alias}">FMS Journal Rating Guide（国际期刊）</h2>
+                            <h3 style="color:#4b749c"  class="ui header item" th:text="${global==null}?'FMS Journal Rating Guide（国际期刊）':${global.alias}">FMS Journal Rating Guide（国际期刊）</h3>
                         </div>
                         <div class="six wide column">
                             <div class="ui right aligned container">
-                            <a th:href="@{/download_pdf}" class="ui button red active">下载</a>
-                            <a th:href="@{/journals}" class="ui button red active">检索</a>
+                            <a th:href="@{/download_pdf}" class="ui mini button red active">下载</a>
+                            <a th:href="@{/journals}" class="ui mini button red active">检索</a>
                             </div>
                         </div>
                     </div>
@@ -49,19 +50,19 @@
                 <div class="ui attached secondary segment">
                     <div class="ui grid">
                         <div class="ten wide column">
-                            <h2 class="ui header item" th:text="${chinese==null}?'FMS管理科学高质量期刊（中文期刊）':${chinese.alias}">FMS管理科学高质量期刊（中文期刊）</h2>
+                            <h3 style="color:#4b749c"  class="ui header item" th:text="${chinese==null}?'FMS管理科学高质量期刊（中文期刊）':${chinese.alias}">FMS管理科学高质量期刊（中文期刊）</h3>
                         </div>
                         <div class="six wide column">
                             <div class="ui right aligned container">
-                                <a th:href="@{/download_cn_pdf}" class="ui button red active">下载</a>
-                                <a th:href="@{/journals_cn}" class="ui button red active">检索</a>
+                                <a th:href="@{/download_cn_pdf}" class="ui mini button red active">下载</a>
+                                <a th:href="@{/journals_cn}" class="ui mini button red active">检索</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="ui bottom attached segment">
-                    <h1 th:text="${purpose == null} ? '':${purpose.title}">期刊列表推荐宗旨</h1>
+                    <h3 style="color:#4b749c"  th:text="${purpose == null} ? '':${purpose.title}">期刊列表推荐宗旨</h3>
                     <p th:utext="${purpose == null} ? '':${purpose.content}">
                     </p>
                 </div>
@@ -91,12 +92,18 @@
 		        .transition('fade');
 		});
 
+    //indexSearch
+    function indexSearch() {
+        var form =  document.getElementById('index-search-form');
+        form.submit();
+    }
+
     var _paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="//127.0.0.1:8081/matomo/";
+    var u="//114.215.220.151:8081/matomo/";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];

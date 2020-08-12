@@ -88,10 +88,15 @@ public class AdminJournalController {
     @PostMapping("journal/edit{id}")
     public String journalEdit(@Valid Journal journal,
                               BindingResult result,
+                              @RequestParam("subject.id") Long subjectid,
                               @PathVariable("id") Long id,
                               RedirectAttributes attributes) {
 
         Journal journal1 = journalService.getJournalByIssn(journal.getIssn());
+
+        if (subjectid == null) {
+            result.rejectValue("subject", "nameError", "未选择学科");
+        }
 
         if (id == null) {
             //新增
@@ -100,12 +105,12 @@ public class AdminJournalController {
             }
 
             if (journal.getSubject() == null) {
-                result.rejectValue("type", "nameError", "未选择学科");
+                result.rejectValue("subject", "nameError", "未选择学科");
             }
 
             List<Type> tmp = typeService.listType();
             if(tmp == null || tmp.isEmpty()) {
-                result.rejectValue("type", "nameError", "请先添加学科");
+                result.rejectValue("subject", "nameError", "请先添加学科");
             }
         } else {
             //修改
@@ -133,7 +138,9 @@ public class AdminJournalController {
             }
         }
 
-        journal.setSubject(journalService.getJournal(id).getSubject());
+        if(journal.getSubject() == null) {
+            journal.setSubject(typeService.getType(subjectid));
+        }
 
         Journal j = null;
         if (id == null) {

@@ -69,7 +69,6 @@ public class AdminTypeController {
                            RedirectAttributes attributes) {
         try {
             Type type1 = typeService.getTypeByName(type.getName());
-
             if (id == null) {
                 //新增
                 if (type1 != null) {
@@ -77,8 +76,8 @@ public class AdminTypeController {
                 }
             } else {
                 //修改
-                if (type1 == null) {
-                    result.rejectValue("type","","数据库中不存在该记录");
+                if (type1 != null && !type1.getId().equals(id)) {
+                    result.rejectValue("type","","不能添加重复条目");
                 }
             }
 

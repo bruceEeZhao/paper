@@ -14,10 +14,15 @@ public class Purpose {
 
     private String title;
 
-    @NotBlank(message = "内容不能为空")
     @Basic(fetch = FetchType.LAZY)
     @Lob
     private String content;
+
+    //英语版的推荐
+    private String titleEng;
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    private String contentEng;
 
     public Purpose() {
     }
@@ -46,12 +51,30 @@ public class Purpose {
         this.content = content;
     }
 
+    public String getTitleEng() {
+        return titleEng;
+    }
+
+    public void setTitleEng(String titleEng) {
+        this.titleEng = titleEng;
+    }
+
+    public String getContentEng() {
+        return contentEng;
+    }
+
+    public void setContentEng(String contentEng) {
+        this.contentEng = contentEng;
+    }
+
     @Override
     public String toString() {
         return "Purpose{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", titleEng='" + titleEng + '\'' +
+                ", contentEng='" + contentEng + '\'' +
                 '}';
     }
 }

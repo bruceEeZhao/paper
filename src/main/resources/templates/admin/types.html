@@ -50,12 +50,14 @@
             <tr>
                 <th>序号</th>
                 <th>学科名称</th>
+                <th>英文学科名称</th>
                 <th>操作</th>
             </tr></thead>
             <tbody>
             <tr th:each="subject,iterStat : ${page.content}">
                 <td th:text="${iterStat.count}">1</td>
                 <td th:text="${subject.name}">学科名称</td>
+                <td th:text="${subject.engName}">英文学科名称</td>
                 <td>
                     <a href="#" th:href="@{/admin/type/{id}/input(id=${subject.id})}" class="ui mini teal basic button">编辑</a>
                     <a href="#" th:href="@{/admin/type/{id}/delete(id=${subject.id})}" class="ui mini red basic button">删除</a>

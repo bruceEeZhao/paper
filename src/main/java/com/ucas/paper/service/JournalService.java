@@ -18,11 +18,11 @@ public interface JournalService {
 
     Journal getJournalByIssn(String issn);
 
-    Page<Journal> listJournal(Pageable pageable);
+    Page<Journal> listJournal(Pageable pageable,String lang);
 
-    Page<Journal> listJournal(Pageable pageable, JournalSearch search);
+    Page<Journal> listJournal(Pageable pageable, JournalSearch search, String lang);
 
-    List<Journal> listJournal();
+    List<Journal> listJournal(String lang);
 
     Journal updateJournalById(Long id, Journal journal);
 

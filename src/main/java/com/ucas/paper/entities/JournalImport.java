@@ -14,24 +14,36 @@ public class JournalImport {
     @NotNull
     private String subject;
 
-    @Excel(name = "期刊名称", orderNum = "2")
+    @Excel(name = "英文学科", orderNum = "2")
+    @NotNull
+    private String subjectEng;
+
+    @Excel(name = "期刊名称", orderNum = "3")
     @NotNull
     private String name;  //期刊名称
 
-    @Excel(name = "fms", orderNum = "3")
+    @Excel(name = "fms", orderNum = "4")
     private String fms;
 
-    @Excel(name = "jcr", orderNum = "4")
+    @Excel(name = "jcr", orderNum = "5")
     private Integer jcr;
 
-    @Excel(name = "sjr", orderNum = "5")
+    @Excel(name = "sjr", orderNum = "6")
     private Integer sjr;
 
-    @Excel(name = "snip", orderNum = "6")
+    @Excel(name = "snip", orderNum = "7")
     private Integer snip;
 
 
     public JournalImport() {
+    }
+
+    public String getSubjectEng() {
+        return subjectEng;
+    }
+
+    public void setSubjectEng(String subjectEng) {
+        this.subjectEng = subjectEng;
     }
 
     public String getIssn() {
@@ -95,6 +107,7 @@ public class JournalImport {
         return "JournalImport{" +
                 "issn='" + issn + '\'' +
                 ", subject='" + subject + '\'' +
+                ", subjectEng='" + subjectEng + '\'' +
                 ", name='" + name + '\'' +
                 ", fms='" + fms + '\'' +
                 ", jcr=" + jcr +

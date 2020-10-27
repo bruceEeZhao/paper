@@ -72,6 +72,16 @@ public class IndexController {
         return "index";
     }
 
+    //英文版首页
+    @GetMapping(value = {"/english"})
+    public String indexEnglish(Model model) {
+        Purpose purpose = purposeService.getAndConvert();
+
+        model.addAttribute("purpose", purpose);
+
+        return "index_english";
+    }
+
     @GetMapping("/aboutus")
     public String aboutus(Model model) {
 

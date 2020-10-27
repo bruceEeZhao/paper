@@ -1,6 +1,8 @@
 spring:
+  messages:
+    basename: i18n.messages
   thymeleaf:
     mode: HTML
     encoding: UTF-8
   profiles:
-    active: pro
+    active: dev

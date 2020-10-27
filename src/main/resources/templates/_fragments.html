@@ -34,6 +34,33 @@
                     <i class="search link icon button" onclick="indexSearch()"></i>
                 </div>
                 </form>
+                <!--  中英文切换  -->
+                <a href="#" th:href="@{/english?lang=en_us}" class="item"> <i class="language icon"></i> English</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+<!-- 英文版导航 -->
+<nav th:fragment="navigationE(n)" class="ui darkblue inverted attached segment m-padded-tb-mini " >
+    <div class="ui container">
+        <div class="ui inverted secondary menu">
+            <a class="item">
+                <img class="ui image" width="80" height="30" src="../static/images/logo.jpeg" th:src="@{/images/logo.png}">
+            </a>
+            <a href="#" th:href="@{/english?lang=en_us}" class="item" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>Introduction</a>
+            <a href="#" th:href="@{/journals?lang=en_us}" class="item" th:classappend="${n==2} ? 'active'"><i class="globe icon"></i>Journal Rating</a>
+            <div class="right item">
+<!--                <form method="get" th:action="@{/index_search}" id="index-search-formE">-->
+<!--                    <div class="ui icon inverted transparent input">-->
+<!--                        <input type="text" name="indexSearch" placeholder="Search..." >-->
+<!--                        <i class="search link icon button" onclick="indexSearch()"></i>-->
+<!--                    </div>-->
+<!--                </form>-->
+                <!--  中英文切换  -->
+                <a href="#" th:href="@{/}" class="item"> <i class="language icon"></i> 中文</a>
             </div>
         </div>
     </div>

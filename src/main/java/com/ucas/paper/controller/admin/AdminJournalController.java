@@ -44,7 +44,8 @@ public class AdminJournalController {
     //返回journal列表
     @GetMapping("journals")
     public String journaLlist(Pageable pageable, Model model,Integer page,
-                              @RequestParam(value = "num", defaultValue = "20") Integer num) {
+                              @RequestParam(value = "num", defaultValue = "20") Integer num,
+                              @RequestParam(value = "lang", defaultValue = "zh_cn") String lang) {
         if (page == null || page < 0){
             page = 0;
         }
@@ -54,7 +55,7 @@ public class AdminJournalController {
         pageable = PageRequest.of(page,num,order);
 
         model.addAttribute("subjects", typeService.listType());
-        model.addAttribute("page",journalService.listJournal(pageable));
+        model.addAttribute("page",journalService.listJournal(pageable, lang));
         model.addAttribute("numb_show", num);
         return "admin/journalList";
     }
@@ -188,6 +189,7 @@ public class AdminJournalController {
     @GetMapping("journal/delall")
     public String journalDelAll() {
         journalService.deleteAllJournal();
+        typeService.delAllType();
         return "redirect:/admin/journals";
     }
 
@@ -243,23 +245,22 @@ public class AdminJournalController {
     }
 
     private Journal ConvertToJournal(JournalImport j) {
-        List <Type> types = typeService.listType();
         Boolean flag = false;
         Type t = new Type();
 
-
-        for (Type type :
-                types) {
-            if (type.getName().equals(j.getSubject())) {
-                //已经存在该type
-                flag=true;
-                t.setId(type.getId());
-                t.setName(type.getName());
-            }
+        Type type = typeService.getTypeByName(j.getSubject().trim());
+        if (type != null) {
+            //已经存在该type
+            flag=true;
+            t.setId(type.getId());
+            t.setName(type.getName());
+            t.setEngName(type.getEngName());
         }
+
         //不存在该type，创建
         if (!flag) {
-            t.setName(j.getSubject());
+            t.setName(j.getSubject().trim());
+            t.setEngName(j.getSubjectEng().trim());
             if (null == typeService.addType(t)) {
                 return null;
             }

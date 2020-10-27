@@ -34,13 +34,20 @@
             <!--     markdown编辑器       -->
             <div class="required field">
                 <div id="md-content"  style="z-index: 1 !important">
-                    <textarea name="content" th:text="${purpose == null} ? '期刊列表推荐宗旨' : ${purpose.content} " style="display:none;">[TOC]
-#### Disabled options
-- TeX (Based on KaTeX);
-- Emoji;
-- Task lists;
-- HTML tags decode;
-- Flowchart and Sequence Diagram;
+                    <textarea name="content" th:text="${purpose == null} ? '期刊列表推荐宗旨' : ${purpose.content} " style="display:none;">
+                    </textarea>
+                </div>
+            </div>
+
+            <!--      英文版编辑器      -->
+            <div class="required field">
+                <input type="text" name="titleEng" placeholder="期刊列表推荐宗旨--英文版" th:value="${purpose != null} ? ${purpose.titleEng}">
+            </div>
+
+            <!--     markdown编辑器       -->
+            <div class="required field">
+                <div id="md-contentEng"  style="z-index: 1 !important">
+                    <textarea name="contentEng" th:text="${purpose == null} ? '期刊列表推荐宗旨---英文版' : ${purpose.contentEng} " style="display:none;">
                     </textarea>
                 </div>
             </div>
@@ -63,13 +70,7 @@
             <!--     markdown编辑器       -->
             <div class="required field">
                 <div id="md-content1"  style="z-index: 1 !important">
-                    <textarea name="content" th:text="${about == null} ? '关于我们' : ${about.content} " style="display:none;">[TOC]
-#### Disabled options
- - TeX (Based on KaTeX);
- - Emoji;
- - Task lists;
- - HTML tags decode;
- - Flowchart and Sequence Diagram;
+                    <textarea name="content" th:text="${about == null} ? '关于我们' : ${about.content} " style="display:none;">
                     </textarea>
                 </div>
             </div>
@@ -91,6 +92,16 @@
     var contentEditor;
         $(function() {
             contentEditor = editormd("md-content", {
+                width   : "100%",
+                height  : 320,
+                syncScrolling : "single",
+                path    : "/lib/editor/lib/"
+            });
+     });
+
+     var contentEditorEng;
+        $(function() {
+            contentEditor = editormd("md-contentEng", {
                 width   : "100%",
                 height  : 320,
                 syncScrolling : "single",

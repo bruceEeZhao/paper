@@ -49,8 +49,10 @@ public class PurposeServiceImpl implements PurposeService {
         Purpose n = new Purpose();
         BeanUtils.copyProperties(purpose, n);
         String content = n.getContent();
+        String contentEng = n.getContentEng();
 
         n.setContent(MarkdownHandler.markdownToHtml(content));
+        n.setContentEng(MarkdownHandler.markdownToHtml(contentEng));
         return n;
     }
 }

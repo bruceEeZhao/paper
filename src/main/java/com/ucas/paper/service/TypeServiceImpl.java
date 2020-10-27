@@ -92,6 +92,13 @@ public class TypeServiceImpl implements TypeService{
         typeRespository.deleteById(id);
     }
 
+    @Transactional
+    @Override
+    public void delAllType() {
+        typeRespository.deleteAll();
+    }
+
+    @Transactional
     @Override
     public Long count() {
         return typeRespository.count();

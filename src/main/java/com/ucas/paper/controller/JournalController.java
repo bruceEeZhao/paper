@@ -43,17 +43,23 @@ public class JournalController {
     //返回journal列表
     @GetMapping("/journals")
     public String journaLlist(Pageable pageable, Model model,Integer page,
-                              @RequestParam(value = "num", defaultValue = "20") Integer num) {
+                              @RequestParam(value = "num", defaultValue = "20") Integer num,
+                              @RequestParam(value = "lang", defaultValue = "zh_cn") String lang) {
         if (page == null || page < 0){
             page = 0;
+        }
+
+        if (lang == null) {
+            lang = "zh_cn";
         }
 
         Sort order = Sort.by(Sort.Direction.DESC, "fms");
         pageable = PageRequest.of(page,num,order);
 
         model.addAttribute("subjects", typeService.listType());
-        model.addAttribute("page",journalService.listJournal(pageable));
+        model.addAttribute("page", journalService.listJournal(pageable, lang));
         model.addAttribute("numb_show", num);
+        model.addAttribute("lang", lang);
         return "journal/list";
     }
 

@@ -5,6 +5,7 @@ import com.ucas.paper.dao.JournalRespository;
 import com.ucas.paper.entities.Journal;
 import com.ucas.paper.entities.JournalSearch;
 import com.ucas.paper.handler.JournalComparator;
+import com.ucas.paper.handler.JournalComparatorEng;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -60,20 +61,28 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
-    public List<Journal> listJournal() {
+    public List<Journal> listJournal(String lang) {
         List<Journal> journals = journalRespository.findAll();
-        Collections.sort(journals, new JournalComparator());
+        if (lang.equals("zh_cn")) {
+            Collections.sort(journals, new JournalComparator());
+        } else {
+            Collections.sort(journals, new JournalComparatorEng());
+        }
         return journals;
     }
 
     @Transactional
     @Override
-    public Page<Journal> listJournal(Pageable pageable) {
+    public Page<Journal> listJournal(Pageable pageable, String lang) {
 //        Page<Journal> journals = journalRespository.findAllByQuery(pageable);
 //        List<Journal> journalList = new ArrayList<>(journals.getContent());
         List<Journal> journalList= journalRespository.findAll();
-        JournalComparator e = new JournalComparator();
-        journalList.sort(e);
+        //JournalComparator e = new JournalComparator();
+        if (lang.equals("zh_cn")) {
+            journalList.sort(new JournalComparator());
+        } else {
+            journalList.sort(new JournalComparatorEng());
+        }
 
         int start = (int)pageable.getOffset();
         int end = (start + pageable.getPageSize()) > journalList.size() ? journalList.size() : ( start + pageable.getPageSize());
@@ -83,7 +92,7 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
-    public Page<Journal> listJournal(Pageable pageable, JournalSearch search) {
+    public Page<Journal> listJournal(Pageable pageable, JournalSearch search, String lang) {
         List<Journal> journalList = journalRespository.findAll(new Specification<Journal>() {
             @Override
             public Predicate toPredicate(Root<Journal> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -103,8 +112,12 @@ public class JournalServiceImpl implements JournalService {
             }
         });
 
-        JournalComparator e = new JournalComparator();
-        journalList.sort(e);
+        //JournalComparator e = new JournalComparator();
+        if (lang.equals("zh_cn")) {
+            journalList.sort(new JournalComparator());
+        } else {
+            journalList.sort(new JournalComparatorEng());
+        }
 
         int start = (int)pageable.getOffset();
         int end = (start + pageable.getPageSize()) > journalList.size() ? journalList.size() : ( start + pageable.getPageSize());
@@ -160,22 +173,24 @@ public class JournalServiceImpl implements JournalService {
         titleRow.createCell(0).setCellValue("序号");//第一列
         titleRow.createCell(1).setCellValue("issn");
         titleRow.createCell(2).setCellValue("学科");
-        titleRow.createCell(3).setCellValue("期刊名称");
-        titleRow.createCell(4).setCellValue("fms");
-        titleRow.createCell(5).setCellValue("jcr");
-        titleRow.createCell(6).setCellValue("sjr");
-        titleRow.createCell(7).setCellValue("snip");
+        titleRow.createCell(3).setCellValue("英文学科");
+        titleRow.createCell(4).setCellValue("期刊名称");
+        titleRow.createCell(5).setCellValue("fms");
+        titleRow.createCell(6).setCellValue("jcr");
+        titleRow.createCell(7).setCellValue("sjr");
+        titleRow.createCell(8).setCellValue("snip");
         int cell = 1;
         for (Journal journal : list) {
             Row row = sheet.createRow(cell);//从第二行开始保存数据
             row.createCell(0).setCellValue(cell);
             row.createCell(1).setCellValue(journal.getIssn());//将数据库的数据遍历出来
             row.createCell(2).setCellValue(journal.getSubject().getName());
-            row.createCell(3).setCellValue(journal.getName());
-            row.createCell(4).setCellValue(journal.getFms());
-            row.createCell(5).setCellValue(journal.getJcr());
-            row.createCell(6).setCellValue(journal.getSjr());
-            row.createCell(7).setCellValue(journal.getSnip());
+            row.createCell(3).setCellValue(journal.getSubject().getEngName());
+            row.createCell(4).setCellValue(journal.getName());
+            row.createCell(5).setCellValue(journal.getFms());
+            row.createCell(6).setCellValue(journal.getJcr());
+            row.createCell(7).setCellValue(journal.getSjr());
+            row.createCell(8).setCellValue(journal.getSnip());
 
             cell++;
         }

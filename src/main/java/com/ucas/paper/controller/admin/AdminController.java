@@ -51,9 +51,6 @@ public class AdminController {
     private NewsService newsService;
 
     @Autowired
-    private SpecialistService specialistService;
-
-    @Autowired
     private JournalCNService journalCNService;
 
 
@@ -67,8 +64,8 @@ public class AdminController {
                                         Pageable pageable,Model model) {
         model.addAttribute("subject", typeService.count());
         model.addAttribute("journal",journalService.count());
+        model.addAttribute("journal_cn",journalCNService.count());
         model.addAttribute("news", newsService.count());
-        model.addAttribute("specialist",specialistService.count());
         return "admin/dashboard";
     }
 
@@ -203,6 +200,10 @@ public class AdminController {
 
         if (purpose.getTitle()==null || "".equals(purpose.getTitle().trim())) {
             purpose.setTitle("期刊列表推荐宗旨");
+        }
+
+        if (purpose.getTitleEng()==null || "".equals(purpose.getTitleEng().trim())) {
+            purpose.setTitleEng("期刊列表推荐宗旨---英文版");
         }
 
         purposeService.updatePurpose(purpose);

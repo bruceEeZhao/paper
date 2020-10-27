@@ -29,7 +29,15 @@
                     22
                 </div>
                 <div class="label">
-                    期刊数量
+                    国际期刊数量
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value" th:text="${journal_cn}">
+                    22
+                </div>
+                <div class="label">
+                    中文期刊数量
                 </div>
             </div>
             <div class="statistic">
@@ -40,15 +48,6 @@
                     新闻数量
                 </div>
             </div>
-            <div class="statistic">
-                <div class="value" th:text="${specialist}">
-                    22
-                </div>
-                <div class="label">
-                    编辑数量
-                </div>
-            </div>
-
             </div>
         </div>
     <img class="ui fluid image" th:src="@{/images/welcome.jpg}">

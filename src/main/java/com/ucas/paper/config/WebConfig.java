@@ -1,17 +1,20 @@
 package com.ucas.paper.config;
 
+import com.ucas.paper.handler.MyLocaleHandler;
 import com.ucas.paper.interceptor.LoginHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.unit.DataSize;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.MultipartConfigElement;
 import javax.validation.Valid;
+import java.util.Locale;
 
 
 @Configuration
@@ -56,6 +59,11 @@ public class WebConfig implements WebMvcConfigurer {
         /// 设置总上传数据总大小
 //        factory.setMaxRequestSize(DataSize.ofMegabytes(100));
         return factory.createMultipartConfig();
+   }
+
+   @Bean
+   public LocaleResolver localeResolver() {
+        return new MyLocaleHandler();
    }
 }
 

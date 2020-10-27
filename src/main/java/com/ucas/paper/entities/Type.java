@@ -14,6 +14,9 @@ public class Type {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String engName;
+
     @OneToMany(mappedBy = "subject")
     private List<Journal> journals = new ArrayList<Journal>();
 
@@ -46,12 +49,20 @@ public class Type {
         this.journals = journals;
     }
 
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
 
     @Override
     public String toString() {
         return "Type{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", engName='" + engName + '\'' +
                 ", journals=" + journals +
                 '}';
     }

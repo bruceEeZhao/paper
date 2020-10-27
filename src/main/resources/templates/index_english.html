@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link th:href="@{/images/favicon.ico}" rel="shortcut icon" type="image/x-icon">
+    <meta charset="UTF-8">
+    <title>FMS Journal Rating Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" th:href="@{/lib/semanticui/semantic.css}">
+    <link rel="stylesheet" href="../static/css/paper.css" th:href="@{/css/paper.css}">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" th:src="@{/webjars/jquery/3.2.1/dist/jquery.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js" th:src="@{/lib/semanticui/semantic.min.js}"></script>
+
+</head>
+<body>
+
+<div class="m-content">
+<!-- 导航 -->
+<nav th:insert="_fragments :: navigationE(1)"></nav>
+
+<!-- 中间内容 -->
+<div class="m-container m-padded-tb-large">
+    <div class="ui container">
+
+        <!--    提示消息    -->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">操作成功</p>
+        </div>
+
+        <div class="ui grid">
+            <!-- left side -->
+            <div class="sixteen wide column">
+<!--                <div class="ui top attached segment">-->
+<!--                    <img src="../static/images/JRG.jpg" th:src="@{/images/JRG.jpg}" width="740px" height="180px">-->
+<!--                </div>-->
+
+<!--       英文版不提供下载功能         -->
+<!--                <div class="ui attached secondary segment">-->
+<!--                    <div class="ui grid">-->
+<!--                        <div class="ten wide column">-->
+<!--                            <h3 style="color:#4b749c"  class="ui header item" th:text="${global==null}?'FMS Journal Rating Guide（国际期刊）':${global.alias}">FMS Journal Rating Guide（国际期刊）</h3>-->
+<!--                        </div>-->
+<!--                        <div class="six wide column">-->
+<!--                            <div class="ui right aligned container">-->
+<!--                            <a th:href="@{/download_pdf}" class="ui mini button red active">下载</a>-->
+<!--                            <a th:href="@{/journals}" class="ui mini button red active">检索</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="ui attached secondary segment">-->
+<!--                    <div class="ui grid">-->
+<!--                        <div class="ten wide column">-->
+<!--                            <h3 style="color:#4b749c"  class="ui header item" th:text="${chinese==null}?'FMS管理科学高质量期刊（中文期刊）':${chinese.alias}">FMS管理科学高质量期刊（中文期刊）</h3>-->
+<!--                        </div>-->
+<!--                        <div class="six wide column">-->
+<!--                            <div class="ui right aligned container">-->
+<!--                                <a th:href="@{/download_cn_pdf}" class="ui mini button red active">下载</a>-->
+<!--                                <a th:href="@{/journals_cn}" class="ui mini button red active">检索</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="ui bottom attached segment">
+                    <h3 style="color:#4b749c"  th:text="${purpose == null} ? '':${purpose.titleEng}">期刊列表推荐宗旨</h3>
+                    <p th:utext="${purpose == null} ? '':${purpose.contentEng}">
+                    </p>
+                </div>
+            </div>
+
+<!--     英文版不展示新闻       -->
+<!--            &lt;!&ndash; right side&ndash;&gt;-->
+<!--            <div class="five wide column">-->
+<!--                <div th:insert="_fragments :: news"></div>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
+</div>
+
+<!--<footer th:insert="_fragments :: footer"></footer>-->
+
+<script type="text/javascript">
+    $('.menu .item')
+    .tab()
+    ;
+
+    //消息提示关闭初始化
+		$('.message .close')
+		.on('click', function() {
+		    $(this)
+		        .closest('.message')
+		        .transition('fade');
+		});
+
+    //indexSearch
+    function indexSearch() {
+        var form =  document.getElementById('index-search-form');
+        form.submit();
+    }
+
+    var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//114.215.220.151:8081/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+</body>
+</html>

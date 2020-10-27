@@ -54,7 +54,8 @@ public class SearchController {
                                  @RequestParam("subject.id") Long subid,
                                  @RequestParam("issn") String issn,
                                  @RequestParam("name") String name,
-                                 @RequestParam(value = "num", defaultValue = "20") Integer numb_show) {
+                                 @RequestParam(value = "num", defaultValue = "20") Integer numb_show,
+                                 @RequestParam(value = "lang", defaultValue = "zh_cn") String lang) {
         try {
             if (page==null || page<0) {
                 page = 0;
@@ -63,9 +64,9 @@ public class SearchController {
             if (numb_show>0) {
                 JournalSearch search = new JournalSearch(subid, issn.trim(), name.trim());
                 pageable = PageRequest.of(page, numb_show);
-                model.addAttribute("page",journalService.listJournal(pageable, search));
+                model.addAttribute("page",journalService.listJournal(pageable, search, lang));
             } else {
-                model.addAttribute("pagel",journalService.listJournal());
+                model.addAttribute("pagel",journalService.listJournal(lang));
             }
 
             model.addAttribute("subjects", typeService.listType());
@@ -73,6 +74,7 @@ public class SearchController {
             model.addAttribute("subid",subid);
             model.addAttribute("issn", issn);
             model.addAttribute("name", name);
+            model.addAttribute("lang", lang);
 
             model.addAttribute("search",1);
 
